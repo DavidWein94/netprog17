@@ -46,6 +46,7 @@ class UpdatePackage(db.Model):
         self.version=version
         self.url=url
 
+
 db.create_all()
 if(len(list(UpdatePackage.query.all())) == 0):
     update1=UpdatePackage('UpdateA',1.0,'https://UpdateA.de')
@@ -160,6 +161,11 @@ def main():
 @app.route('/updates')
 def updates():
      return render_template('updates.html.', updates=UpdatePackage.query.all())
+
+@app.route('/updates/downloads/<update>', methods=['GET'])
+def return_file(update):
+    updatefile=update + ".zip"
+    return send_from_directory(directory='downloads', filename=updatefile, as_attachment=True)
 def runFlask():
     app.run(host='0.0.0.0', port=5000, threaded=True)
 
