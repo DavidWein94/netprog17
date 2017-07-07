@@ -25,8 +25,8 @@ def connect():
         u = Thread(target=updateRequest)
         u.start()
         while (connection):
-            recieved = s.recv(1000) #trying to recieve ping from server
-            if (s.recv(100) == b''): # if ping is empty Server must be offline or another instance of this Client is already connected
+            recieved = s.recv(1000).decode() #trying to recieve ping from server
+            if (s.recv(100) == ''): # if ping is empty Server must be offline or another instance of this Client is already connected
                 print("No Connection,Server dead or CLient already connected")
                 s.close()
                 connection = False
@@ -96,6 +96,8 @@ def updateClientInfo(jsono):
     """Updates the updateinfo.txt with new  Information out of a JSON-String"""
     urllib.request.urlretrieve(jsono['url'],jsono['name'])
     file = open('updateinfo.txt', 'w')
+    if platform.system()== 'Linux':
+        call([jsono['script'],jsono['name']])
     file.write('{"name": "'+jsono['name']+'", "version": "'+ str(jsono['version'])+'", "url": "' +jsono['url']+ '"}')
     print("Updated")
 

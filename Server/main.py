@@ -41,20 +41,22 @@ class UpdatePackage(db.Model):
     packageName=db.Column(db.String(100))
     version=db.Column(db.Float)
     url=db.Column(db.String(100))
+    script=db.Column(db.String(100))
 
-    def __init__(self,packageName,version,url):
+    def __init__(self,packageName,version,url,script):
         self.packageName=packageName
         self.version=version
         self.url=url
+        self.script=script
 
 
 db.create_all()
 if(len(list(UpdatePackage.query.all())) == 0):
-    update1=UpdatePackage('UpdateA.zip',1.0,LocalUrl+"UpdateA")
-    update2=UpdatePackage('UpdateAb.zip',1.5,LocalUrl+"UpdateAb")
-    update3=UpdatePackage('UpdateB.zip',2.0,LocalUrl+"UpdateB")
-    update4 = UpdatePackage('UpdateC.zip', 3.0, LocalUrl+"UpdateC")
-    update5 = UpdatePackage('UpdateD.zip', 4.0, LocalUrl+"UpdateD")
+    update1=UpdatePackage('UpdateA.zip',1.0,LocalUrl+"UpdateA","unzip")
+    update2=UpdatePackage('UpdateAb.zip',1.5,LocalUrl+"UpdateAb","unzip")
+    update3=UpdatePackage('UpdateB.zip',2.0,LocalUrl+"UpdateB","unzip")
+    update4 = UpdatePackage('UpdateC.zip', 3.0, LocalUrl+"UpdateC","unzip")
+    update5 = UpdatePackage('UpdateD.zip', 4.0, LocalUrl+"UpdateD","unzip")
     db.session.add(update1)
     db.session.add(update2)
     db.session.add(update3)
@@ -146,7 +148,8 @@ def checkUpdateRequest():
                     jsonupdate = json.loads(k.recv(100).decode("utf-8"))
                     if (float(jsonupdate['Update']) < float(max)):
                         updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
-                            maxUp.version) + '","url":"' + maxUp.url + '"}'
+                            maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script +'"}'
+                        print(updatemessage)
                         k.send(str.encode(updatemessage))
                         print('UpdateMessageSend')
                     else:
