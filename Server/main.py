@@ -14,6 +14,7 @@ lockcs=threading.Lock()
 serversocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
 serversocket.bind(('0.0.0.0', 5001))
 serversocket.listen(5)
+LocalUrl='http://192.168.0.59:5000/updates/downloads/'
 
 
 class Client(db.Model):
@@ -49,11 +50,11 @@ class UpdatePackage(db.Model):
 
 db.create_all()
 if(len(list(UpdatePackage.query.all())) == 0):
-    update1=UpdatePackage('UpdateA',1.0,'https://UpdateA.de')
-    update2=UpdatePackage('UpdateAb',1.5,'https://UpdateAb.de')
-    update3=UpdatePackage('UpdateB',2.0,'https://UpdateB.de')
-    update4 = UpdatePackage('UpdateC', 3.0, 'https://UpdateC.de')
-    update5 = UpdatePackage('UpdateD', 4.0, 'https://UpdateD.de')
+    update1=UpdatePackage('UpdateA',1.0,LocalUrl+"UpdateA")
+    update2=UpdatePackage('UpdateAb',1.5,LocalUrl+"UpdateAb")
+    update3=UpdatePackage('UpdateB',2.0,LocalUrl+"UpdateB")
+    update4 = UpdatePackage('UpdateC', 3.0, LocalUrl+"UpdateC")
+    update5 = UpdatePackage('UpdateD', 4.0, LocalUrl+"UpdateD")
     db.session.add(update1)
     db.session.add(update2)
     db.session.add(update3)
