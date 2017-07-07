@@ -24,6 +24,17 @@ class Client(db.Model):
     alive = db.Column(db.String(40))
     gpu = db.Column(db.String(40))
 
+class UpdatePackage(db.Model):
+    id = db.Column('client_id', db.Integer, primary_key=True)
+    packageName=db.Column(db.String(100))
+    version=db.Column(db.Float)
+    url=db.Column(db.String(100))
+
+    def __init__(self,packageName,version,url):
+        self.packageName=packageName
+        self.version=version
+        self.url=url
+
 
 
 
