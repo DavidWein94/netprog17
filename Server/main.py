@@ -90,6 +90,31 @@ def createServer():
     finally:
         serversocket.close()
 
+def checkAlive():
+    global serversocket
+    for c in Client.query.all():  #at start no client ist connectet
+        c.alive=str(False)
+        db.session.commit()
+    while(True):
+
+        lockcs.acquire()
+        keys=csockets.keys()
+        lockcs.release()
+
+        for s in list(keys):
+            try:
+                s.send(str.encode("Ping"))
+                Client.query.filter(Client.id == csockets[s])[0].alive = str(True)
+                Client.query.filter(Client.id == csockets[s])[0].datum = str(datetime.datetime.now())[:16]
+                db.session.commit()
+            except (ConnectionAbortedError,ConnectionResetError):
+                Client.query.filter(Client.id == csockets[s])[0].alive=str(False)
+                db.session.commit()
+                lockcs.acquire()
+                csockets.pop(s)
+                lockcs.release()
+
+        time.sleep(10)
 
 @app.route('/')
 def main():
