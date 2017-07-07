@@ -116,6 +116,33 @@ def checkAlive():
 
         time.sleep(10)
 
+    def checkUpdateRequest():
+        while True:
+            listUpdates = {}
+            max = 0
+            maxUp = None
+            for upd in UpdatePackage.query.all():
+                if (float(upd.version) > float(max)):
+                    max = upd.version
+                    maxUp = upd
+            lockcs.acquire()
+            keys = list(csockets.keys())
+            lockcs.release()
+            if len(list(keys)) > 0:
+                for k in keys:
+                    try:
+                        jsonupdate = json.loads(k.recv(100).decode("utf-8"))
+                        if (float(jsonupdate['Update']) < float(max)):
+                            updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
+                                maxUp.version) + '","url":"' + maxUp.url + '"}'
+                            k.send(str.encode(updatemessage))
+                            print('UpdateMessageSend')
+                        else:
+                            print("Actual version")
+                    except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError):
+                        print('No recv')
+            time.sleep(10)
+
 @app.route('/')
 def main():
      return render_template('clients.html.', clients=Client.query.all())

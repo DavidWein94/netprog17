@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+<table style="width:50%">
+<tr>
+    <th>Update</th>
+    <th>Version</th>
+    <th>Url</th>
+
+</tr>
+{%for update in updates%}
+<tr>
+     <td>{{update.packageName}}</td>
+     <td>{{update.version}}</td>
+     <td>{{update.url}}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>
