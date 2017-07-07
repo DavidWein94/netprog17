@@ -15,6 +15,7 @@ serversocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
 serversocket.bind(('0.0.0.0', 5001))
 serversocket.listen(5)
 LocalUrl='http://192.168.0.59:5000/updates/downloads/'
+URL="http://192.168.0.59:5000"
 
 
 class Client(db.Model):
@@ -160,7 +161,7 @@ def checkUpdateRequest():
 
 @app.route('/')
 def main():
-     return render_template('clients.html.', clients=Client.query.all())
+     return render_template('clients.html.', clients=Client.query.all(),updateslink=URL+"/updates")
 
 @app.route('/updates')
 def updates():
