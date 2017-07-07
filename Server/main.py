@@ -26,6 +26,15 @@ class Client(db.Model):
     alive = db.Column(db.String(40))
     gpu = db.Column(db.String(40))
 
+    def __init__(self,hostname,ip,cpu,ram,gpu,date):
+        self.hostname=hostname
+        self.ram=ram
+        self.cpu=cpu
+        self.gpu=gpu
+        self.ip=ip
+        self.datum=date
+        self.alive=str(True)
+
 class UpdatePackage(db.Model):
     id = db.Column('client_id', db.Integer, primary_key=True)
     packageName=db.Column(db.String(100))
@@ -116,38 +125,41 @@ def checkAlive():
 
         time.sleep(10)
 
-    def checkUpdateRequest():
-        while True:
-            listUpdates = {}
-            max = 0
-            maxUp = None
-            for upd in UpdatePackage.query.all():
-                if (float(upd.version) > float(max)):
-                    max = upd.version
-                    maxUp = upd
-            lockcs.acquire()
-            keys = list(csockets.keys())
-            lockcs.release()
-            if len(list(keys)) > 0:
-                for k in keys:
-                    try:
-                        jsonupdate = json.loads(k.recv(100).decode("utf-8"))
-                        if (float(jsonupdate['Update']) < float(max)):
-                            updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
-                                maxUp.version) + '","url":"' + maxUp.url + '"}'
-                            k.send(str.encode(updatemessage))
-                            print('UpdateMessageSend')
-                        else:
-                            print("Actual version")
-                    except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError):
-                        print('No recv')
-            time.sleep(10)
+
+def checkUpdateRequest():
+    while True:
+        listUpdates = {}
+        max = 0
+        maxUp = None
+        for upd in UpdatePackage.query.all():
+            if (float(upd.version) > float(max)):
+                max = upd.version
+                maxUp = upd
+        lockcs.acquire()
+        keys = list(csockets.keys())
+        lockcs.release()
+        if len(list(keys)) > 0:
+            for k in keys:
+                try:
+                    jsonupdate = json.loads(k.recv(100).decode("utf-8"))
+                    if (float(jsonupdate['Update']) < float(max)):
+                        updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
+                            maxUp.version) + '","url":"' + maxUp.url + '"}'
+                        k.send(str.encode(updatemessage))
+                        print('UpdateMessageSend')
+                    else:
+                        print("Actual version")
+                except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError):
+                    print('No recv')
+        time.sleep(10)
 
 @app.route('/')
 def main():
      return render_template('clients.html.', clients=Client.query.all())
 
-
+@app.route('/updates')
+def updates():
+     return render_template('updates.html.', updates=UpdatePackage.query.all())
 def runFlask():
     app.run(host='0.0.0.0', port=5000, threaded=True)
 
@@ -155,6 +167,11 @@ def runFlask():
 
 
 if __name__ == "__main__":
-
+    t = Thread(target=createServer)
+    t.start()
+    a = Thread(target=checkAlive)
+    a.start()
+    cU = Thread(target=checkUpdateRequest)
+    cU.start()
     flas=Thread(target=runFlask)
     flas.run()
