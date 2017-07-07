@@ -4,6 +4,7 @@ import time,math,psutil,cpuinfo,json
 from subprocess import call,Popen,PIPE
 
 connection=False
+version=0
 
 def connect():
     try:
@@ -42,6 +43,16 @@ def jsonHardwareInformation():
         m = '{"hostname": "' + get_hostname() + '","cpu":"' + get_processor_name() + '","ram":"' + get_ram() + '","gpu":"' + get_gpu + '"}'
         mbytes=str.encode(m)
         return mbytes
+
+def checkUpdate():
+    global version
+    file=open('updateinfo.txt','r')
+    info=json.loads(file.read())
+    version=info['version']
+def updateClientInfo(jsono):
+    file = open('updateinfo.txt', 'w')
+    file.write('{"name": "'+jsono['name']+'", "version": "'+ str(jsono['version'])+'", "url": "' +jsono['url']+ '"}')
+
 while(True):
     if connection==False:
         print('Trying to connect')
