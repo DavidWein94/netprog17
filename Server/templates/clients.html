@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clients</title>
+<style>
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+</style>
+</head>
+<body>
+<table style="width:50%">
+<tr>
+    <th>Hostname</th>
+    <th>IP</th>
+    <th>CPU</th>
+    <th>GPU</th>
+    <th>RAM[GB]</th>
+    <th>Datum</th>
+    <th>Alive</th>
+</tr>
+{%for client in clients%}
+<tr>
+    <td>{{client.hostname}}</td>
+     <td>{{client.ip}}</td>
+     <td>{{client.cpu}}</td>
+     <td>{{client.gpu}}</td>
+     <td>{{client.ram}}</td>
+     <td>{{client.datum}}</td>
+    <td>{{client.alive}}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>
