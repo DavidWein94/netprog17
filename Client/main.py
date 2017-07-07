@@ -37,7 +37,11 @@ def get_gpu():
         computer = wmi.WMI()
         gpu_info = computer.Win32_VideoController()[0]
         return format(gpu_info.Name)
-
+    return 'System not Linux or Windows'
+def jsonHardwareInformation():
+        m = '{"hostname": "' + get_hostname() + '","cpu":"' + get_processor_name() + '","ram":"' + get_ram() + '","gpu":"' + get_gpu + '"}'
+        mbytes=str.encode(m)
+        return mbytes
 while(True):
     if connection==False:
         print('Trying to connect')
