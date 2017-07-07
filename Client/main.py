@@ -2,6 +2,7 @@ import socket,time,platform
 from threading import Thread
 import time,math,psutil,cpuinfo,json
 from subprocess import call,Popen,PIPE
+import urllib.request
 
 connection=False
 version=0
@@ -24,7 +25,7 @@ def connect():
         u = Thread(target=updateRequest)
         u.start()
         while (connection):
-            recieved = s.recv(100) #trying to recieve ping from server
+            recieved = s.recv(1000) #trying to recieve ping from server
             if (s.recv(100) == b''): # if ping is empty Server must be offline or another instance of this Client is already connected
                 print("No Connection,Server dead or CLient already connected")
                 s.close()
@@ -93,8 +94,10 @@ def checkUpdate():
     version=info['version']
 def updateClientInfo(jsono):
     """Updates the updateinfo.txt with new  Information out of a JSON-String"""
+    urllib.request.urlretrieve(jsono['url'],jsono['name'])
     file = open('updateinfo.txt', 'w')
     file.write('{"name": "'+jsono['name']+'", "version": "'+ str(jsono['version'])+'", "url": "' +jsono['url']+ '"}')
+    print("Updated")
 
 while(True):
     if connection==False:

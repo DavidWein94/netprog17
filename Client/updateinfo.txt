@@ -1,1 +1,1 @@
-{"name": "UpdateD", "version": "4.0", "url": "https://UpdateD.de"}
+{"name": "UpdateD.zip", "version": "4.0", "url": "http://192.168.0.59:5000/updates/downloads/UpdateD"}

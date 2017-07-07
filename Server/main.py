@@ -50,11 +50,11 @@ class UpdatePackage(db.Model):
 
 db.create_all()
 if(len(list(UpdatePackage.query.all())) == 0):
-    update1=UpdatePackage('UpdateA',1.0,LocalUrl+"UpdateA")
-    update2=UpdatePackage('UpdateAb',1.5,LocalUrl+"UpdateAb")
-    update3=UpdatePackage('UpdateB',2.0,LocalUrl+"UpdateB")
-    update4 = UpdatePackage('UpdateC', 3.0, LocalUrl+"UpdateC")
-    update5 = UpdatePackage('UpdateD', 4.0, LocalUrl+"UpdateD")
+    update1=UpdatePackage('UpdateA.zip',1.0,LocalUrl+"UpdateA")
+    update2=UpdatePackage('UpdateAb.zip',1.5,LocalUrl+"UpdateAb")
+    update3=UpdatePackage('UpdateB.zip',2.0,LocalUrl+"UpdateB")
+    update4 = UpdatePackage('UpdateC.zip', 3.0, LocalUrl+"UpdateC")
+    update5 = UpdatePackage('UpdateD.zip', 4.0, LocalUrl+"UpdateD")
     db.session.add(update1)
     db.session.add(update2)
     db.session.add(update3)
