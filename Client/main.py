@@ -94,6 +94,7 @@ def checkUpdate():
         info=json.loads(file.read())
         version=info['version']
     except FileNotFoundError:
+        print("No Version Found:Getting actual Version from Server")
         version='0'
 def updateClientInfo(jsono):
     """Updates the updateinfo.txt with new  Information out of a JSON-String"""
@@ -101,7 +102,11 @@ def updateClientInfo(jsono):
     file = open('updateinfo.txt', 'w')
     if platform.system()== 'Linux':
         call([jsono['script'],jsono['name']])
-    file.write('{"name": "'+jsono['name']+'", "version": "'+ str(jsono['version'])+'", "url": "' +jsono['url']+ '"}')
+        fileInfo=open(jsono['name'][:-4]+ ".txt",'r')
+        d=fileInfo.read()
+        file.write(d)
+    if platform.system()=='Windows':
+        file.write('{"name": "'+jsono['name']+'", "version": "'+ str(jsono['version'])+'", "url": "' +jsono['url']+ '"}')
     print("Updated")
 
 while(True):

@@ -15,16 +15,19 @@ table, th, td {
 <tr>
     <th>Update</th>
     <th>Version</th>
-    <th>Url</th>
+    <th>Download</th>
 
 </tr>
 {%for update in updates%}
 <tr>
      <td>{{update.packageName}}</td>
      <td>{{update.version}}</td>
-    <td><a href={{update.url}}>{{update.url}}</a></td>
+    <td><a href={{update.url}}>Download</a></td>
 </tr>
 {% endfor %}
 </table>
+<form action={{home}}>
+    <input type="submit" value="Clients"> </input>
+</form>
 </body>
 </html>

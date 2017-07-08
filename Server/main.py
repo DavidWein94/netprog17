@@ -52,18 +52,20 @@ class UpdatePackage(db.Model):
 
 
 db.create_all()
-if(len(list(UpdatePackage.query.all())) == 0):
-    update1=UpdatePackage('UpdateA.zip',1.0,LocalUrl+"UpdateA","unzip")
-    update2=UpdatePackage('UpdateAb.zip',1.5,LocalUrl+"UpdateAb","unzip")
-    update3=UpdatePackage('UpdateB.zip',2.0,LocalUrl+"UpdateB","unzip")
-    update4 = UpdatePackage('UpdateC.zip', 3.0, LocalUrl+"UpdateC","unzip")
-    update5 = UpdatePackage('UpdateD.zip', 4.0, LocalUrl+"UpdateD","unzip")
-    db.session.add(update1)
-    db.session.add(update2)
-    db.session.add(update3)
-    db.session.add(update4)
-    db.session.add(update5)
-    db.session.commit()
+
+def initialaseUpdateDB():
+    if(len(list(UpdatePackage.query.all())) == 0):
+        update1=UpdatePackage('UpdateA.zip',1.0,LocalUrl+"UpdateA","unzip")
+        update2=UpdatePackage('UpdateAb.zip',1.5,LocalUrl+"UpdateAb","unzip")
+        update3=UpdatePackage('UpdateB.zip',2.0,LocalUrl+"UpdateB","unzip")
+        update4 = UpdatePackage('UpdateC.zip', 3.0, LocalUrl+"UpdateC","unzip")
+        update5 = UpdatePackage('UpdateD.zip', 4.0, LocalUrl+"UpdateD","unzip")
+        db.session.add(update1)
+        db.session.add(update2)
+        db.session.add(update3)
+        db.session.add(update4)
+        db.session.add(update5)
+        db.session.commit()
 
 def createServer():
     global serversocket
@@ -165,7 +167,7 @@ def main():
 
 @app.route('/updates')
 def updates():
-     return render_template('updates.html.', updates=UpdatePackage.query.all())
+     return render_template('updates.html.', updates=UpdatePackage.query.all(),home=URL)
 
 @app.route('/updates/downloads/<update>', methods=['GET'])
 def return_file(update):
