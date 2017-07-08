@@ -52,7 +52,27 @@ class UpdatePackage(db.Model):
 
 
 db.create_all()
+def newUpdate():
+    time.sleep(8)
+    while(True):
+        inpu=input('For Entering new Update write Yes:')
+        if inpu =="Yes":
+            name=input("Name of Update: ")
+            version=input("Version of Update: ")
+            createUpdatePackage(name,version)
+        else:
+            print('No new Update added\n')
+        time.sleep(10)
 def createUpdatePackage(name,version):
+    upList=UpdatePackage.query.all()
+    for u in upList:
+        if u.packageName == (name + '.zip') :
+            print('Update with this name already exists!\n')
+            return
+        if float(u.version) ==version:
+            print("Update with this version already exists\n")
+            return
+
     update = UpdatePackage(name +'.zip', float(version), LocalUrl + name, "unzip")
     file = open('./downloads/' + update.packageName[:-4] + '.txt', 'w+')
     file.write('{"request":"update","name":"' + update.packageName + '","version":"' + str(
@@ -74,16 +94,16 @@ def initialaseUpdateDB():
         createUpdatePackage('UpdateE', 5.0)
 def createServer():
     global serversocket
-    print('Waiting for Connections')
+    print('Waiting for Connections\n')
 
     try:
         while (1):
             (clientsocket, address) = serversocket.accept()
-            print('Connected')
-            print(address)
+            print('Connected\n')
+            print(address+ '\n')
             jsonobject=json.loads(clientsocket.recv(200).decode())
-            print(jsonobject['hostname'])
-            print(jsonobject['cpu'])
+            #print(jsonobject['hostname'])
+            #print(jsonobject['cpu'])
             if(db.session.query(Client.query.filter(Client.hostname==jsonobject['hostname']).exists()).scalar()== True and db.session.query(Client.query.filter(Client.ip==address[0] ).exists()).scalar() == True):
 
                 clienten = Client.query.filter(Client.hostname == jsonobject['hostname']).all()
@@ -92,11 +112,11 @@ def createServer():
                     idc = clientb.id
                 lockcs.acquire()
                 if idc in csockets.values():
-                    print('Existing:Connected')
+                    print('Existing:Connected\n')
                     clientsocket.close()
                 else:
                     clientsocket.setblocking(0)
-                    print('Existing:Not Connected')
+                    print('Existing:Not Connected\n')
                     csockets.update({clientsocket: idc})
                     Client.query.filter(Client.id == idc)[0].datum = str(datetime.datetime.now())[:16]
                     db.session.commit()
@@ -157,13 +177,14 @@ def checkUpdateRequest():
                     if (float(jsonupdate['Update']) < float(max)):
                         updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
                             maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script +'"}'
-                        print(updatemessage)
+                        #print(updatemessage)
                         k.send(str.encode(updatemessage))
-                        print('UpdateMessageSend')
+                       # print('UpdateMessageSend')
                     else:
-                        print("Actual version")
+                        continue
+                        #print("Actual version")
                 except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError):
-                    print('No recv')
+                    print('No UpdateRequests \n')
         time.sleep(10)
 
 @app.route('/')
@@ -192,5 +213,7 @@ if __name__ == "__main__":
     a.start()
     cU = Thread(target=checkUpdateRequest)
     cU.start()
+    update = Thread(target=newUpdate)
+    update.start()
     flas=Thread(target=runFlask)
     flas.run()
