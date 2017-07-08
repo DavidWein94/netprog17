@@ -26,7 +26,7 @@ def connect():
         u.start()
         while (connection):
             recieved = s.recv(1000).decode() #trying to recieve ping from server
-            if (s.recv(100) == ''): # if ping is empty Server must be offline or another instance of this Client is already connected
+            if (recieved== ''): # if ping is empty Server must be offline or another instance of this Client is already connected
                 print("No Connection,Server dead or CLient already connected")
                 s.close()
                 connection = False
@@ -103,7 +103,7 @@ def updateClientInfo(jsono):
     file = open('updateinfo.txt', 'w')
     if platform.system()== 'Linux':
         call([jsono['script'],jsono['name']])
-        fileInfo=open(jsono['name'][:-4]+ ".txt",'r')
+        fileInfo=open('./downloads/'+jsono['name'][:-4]+ ".txt",'r')
         d=fileInfo.read()
         file.write(d)
         file.close()

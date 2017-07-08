@@ -14,8 +14,8 @@ lockcs=threading.Lock()
 serversocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
 serversocket.bind(('0.0.0.0', 5001))
 serversocket.listen(5)
-LocalUrl='http://192.168.0.59:5000/updates/downloads/'
-URL="http://192.168.0.59:5000"
+LocalUrl='http://192.168.0.38:5000/updates/downloads/'
+URL="http://192.168.0.38:5000"
 
 
 class Client(db.Model):
@@ -150,9 +150,10 @@ def checkAlive():
                 Client.query.filter(Client.id == csockets[s])[0].alive = str(True)
                 Client.query.filter(Client.id == csockets[s])[0].datum = str(datetime.datetime.now())[:16]
                 db.session.commit()
-            except (ConnectionAbortedError,ConnectionResetError):
+            except (ConnectionAbortedError,ConnectionResetError,BrokenPipeError):
                 Client.query.filter(Client.id == csockets[s])[0].alive=str(False)
                 db.session.commit()
+                s.close()
                 lockcs.acquire()
                 csockets.pop(s)
                 lockcs.release()
@@ -162,27 +163,29 @@ def checkAlive():
 
 def checkUpdateRequest():
     while True:
-        listUpdates = {}
         max = 0
         maxUp = None
         for upd in UpdatePackage.query.all():
             if (float(upd.version) > float(max)):
                 max = upd.version
                 maxUp = upd
+               # print(max)
         lockcs.acquire()
         keys = list(csockets.keys())
         lockcs.release()
         if len(list(keys)) > 0:
             for k in keys:
                 try:
-                    jsonupdate = json.loads(k.recv(100).decode("utf-8"))
+                    recieved=k.recv(100).decode("utf-8")
+                    jsonupdate = json.loads(recieved)
                     if (float(jsonupdate['Update']) < float(max)):
                         updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
                             maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script +'"}'
                         #print(updatemessage)
                         k.send(str.encode(updatemessage))
-                       # print('UpdateMessageSend')
+                        print('UpdateMessageSend')
                     else:
+                        print(recieved)
                         continue
                         #print("Actual version")
                 except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError):
@@ -197,7 +200,7 @@ def main():
 def updates():
      return render_template('updates.html', updates=UpdatePackage.query.all(),home=URL)
 
-@app.route('/updates/downloads/<update>', methods=['GET'])
+@app.route('/updates/downloads/<update>')
 def return_file(update):
     updatefile=update + ".zip"
     return send_from_directory(directory='downloads', filename=updatefile, as_attachment=True)
