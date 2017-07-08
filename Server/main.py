@@ -1,6 +1,6 @@
 from socket import *
 from flask import *
-import threading,json,time,datetime
+import threading,json,time,datetime,zipfile,os
 from flask_sqlalchemy import SQLAlchemy
 from threading import Thread
 
@@ -52,21 +52,26 @@ class UpdatePackage(db.Model):
 
 
 db.create_all()
-
+def createUpdatePackage(name,version):
+    update = UpdatePackage(name +'.zip', float(version), LocalUrl + name, "unzip")
+    file = open('./downloads/' + update.packageName[:-4] + '.txt', 'w+')
+    file.write('{"request":"update","name":"' + update.packageName + '","version":"' + str(
+        update.version) + '","url":"' + update.url + '","script":"' + update.script + '"}')
+    file.close()
+    zf = zipfile.ZipFile('./downloads/'+ update.packageName, mode='w')
+    zf.write('./downloads/'+ update.packageName[:-4] + '.txt')
+    zf.close()
+    os.remove('./downloads/' + update.packageName[:-4] + '.txt')
+    db.session.add(update)
+    db.session.commit()
 def initialaseUpdateDB():
     if(len(list(UpdatePackage.query.all())) == 0):
-        update1=UpdatePackage('UpdateA.zip',1.0,LocalUrl+"UpdateA","unzip")
-        update2=UpdatePackage('UpdateAb.zip',1.5,LocalUrl+"UpdateAb","unzip")
-        update3=UpdatePackage('UpdateB.zip',2.0,LocalUrl+"UpdateB","unzip")
-        update4 = UpdatePackage('UpdateC.zip', 3.0, LocalUrl+"UpdateC","unzip")
-        update5 = UpdatePackage('UpdateD.zip', 4.0, LocalUrl+"UpdateD","unzip")
-        db.session.add(update1)
-        db.session.add(update2)
-        db.session.add(update3)
-        db.session.add(update4)
-        db.session.add(update5)
-        db.session.commit()
-
+        createUpdatePackage('UpdateA',1.0)
+        createUpdatePackage('UpdateAb', 1.5)
+        createUpdatePackage('UpdateB', 2.0)
+        createUpdatePackage('UpdateC', 3.0)
+        createUpdatePackage('UpdateD', 4.0)
+        createUpdatePackage('UpdateE', 5.0)
 def createServer():
     global serversocket
     print('Waiting for Connections')
@@ -180,6 +185,7 @@ def runFlask():
 
 
 if __name__ == "__main__":
+    initialaseUpdateDB()
     t = Thread(target=createServer)
     t.start()
     a = Thread(target=checkAlive)

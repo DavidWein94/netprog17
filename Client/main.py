@@ -2,7 +2,7 @@ import socket,time,platform
 from threading import Thread
 import time,math,psutil,cpuinfo,json
 from subprocess import call,Popen,PIPE
-import urllib.request
+import urllib.request,zipfile
 
 connection=False
 version=0
@@ -93,6 +93,7 @@ def checkUpdate():
         file=open('updateinfo.txt','r')
         info=json.loads(file.read())
         version=info['version']
+        file.close()
     except FileNotFoundError:
         print("No Version Found:Getting actual Version from Server")
         version='0'
@@ -105,8 +106,10 @@ def updateClientInfo(jsono):
         fileInfo=open(jsono['name'][:-4]+ ".txt",'r')
         d=fileInfo.read()
         file.write(d)
+        file.close()
     if platform.system()=='Windows':
         file.write('{"name": "'+jsono['name']+'", "version": "'+ str(jsono['version'])+'", "url": "' +jsono['url']+ '"}')
+        file.close()
     print("Updated")
 
 while(True):
