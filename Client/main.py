@@ -89,9 +89,12 @@ def updateRequest():
 def checkUpdate():
     """Read the actual version of the Client out of the updateinfo.txt and saves it in the version variable"""
     global version
-    file=open('updateinfo.txt','r')
-    info=json.loads(file.read())
-    version=info['version']
+    try:
+        file=open('updateinfo.txt','r')
+        info=json.loads(file.read())
+        version=info['version']
+    except FileNotFoundError:
+        version='0'
 def updateClientInfo(jsono):
     """Updates the updateinfo.txt with new  Information out of a JSON-String"""
     urllib.request.urlretrieve(jsono['url'],jsono['name'])
