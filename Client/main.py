@@ -7,7 +7,7 @@ import urllib.request,zipfile
 connection=False
 version=0
 s=None
-SERVERIP='192.168.0.59'
+SERVERIP='192.168.0.38'
 SERVERPORT=5001
 def connect():
     global connection

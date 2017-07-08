@@ -60,6 +60,7 @@ def newUpdate():
             name=input("Name of Update: ")
             version=input("Version of Update: ")
             createUpdatePackage(name,version)
+
         else:
             print('No new Update added\n')
         time.sleep(10)
@@ -84,6 +85,7 @@ def createUpdatePackage(name,version):
     os.remove('./downloads/' + update.packageName[:-4] + '.txt')
     db.session.add(update)
     db.session.commit()
+    print('Added new Update: ' + name +' \n' )
 def initialaseUpdateDB():
     if(len(list(UpdatePackage.query.all())) == 0):
         createUpdatePackage('UpdateA',1.0)
@@ -100,7 +102,7 @@ def createServer():
         while (1):
             (clientsocket, address) = serversocket.accept()
             print('Connected\n')
-            print(address+ '\n')
+            print(address)
             jsonobject=json.loads(clientsocket.recv(200).decode())
             #print(jsonobject['hostname'])
             #print(jsonobject['cpu'])
@@ -189,11 +191,11 @@ def checkUpdateRequest():
 
 @app.route('/')
 def main():
-     return render_template('clients.html.', clients=Client.query.all(),updateslink=URL+"/updates")
+     return render_template('clients.html', clients=Client.query.all(),updateslink=URL+"/updates")
 
 @app.route('/updates')
 def updates():
-     return render_template('updates.html.', updates=UpdatePackage.query.all(),home=URL)
+     return render_template('updates.html', updates=UpdatePackage.query.all(),home=URL)
 
 @app.route('/updates/downloads/<update>', methods=['GET'])
 def return_file(update):
