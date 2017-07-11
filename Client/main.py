@@ -2,10 +2,11 @@ import socket,time,platform
 from threading import Thread
 import time,math,psutil,cpuinfo,json
 from subprocess import call,Popen,PIPE
-import urllib.request,zipfile
+import urllib.request,zipfile,os
 
 connection=False
 version=0
+checksum=str(0)
 s=None
 SERVERIP='192.168.0.38'
 SERVERPORT=5001
@@ -38,7 +39,7 @@ def connect():
                     updateClientInfo(jsonr)
                 except json.decoder.JSONDecodeError:
                     continue
-            time.sleep(10)
+            time.sleep(1)
     except (ConnectionResetError, ConnectionRefusedError):
         print("No Connection,Server dead or CLient already connected")
         s.close()
@@ -82,30 +83,44 @@ def updateRequest():
         while connection:
             checkUpdate()
             print('UpdateRequest')
-            s.send(str.encode('{"Update":"' + version +'"}'))
+            s.send(str.encode('{"Update":"' + version +'","checksum":"' + checksum +'"}'))
             time.sleep(20)
     except ConnectionResetError:
         connection=False
 def checkUpdate():
     """Read the actual version of the Client out of the updateinfo.txt and saves it in the version variable"""
     global version
+    global  checksum
     try:
         file=open('updateinfo.txt','r')
         info=json.loads(file.read())
         version=info['version']
+        checksum=info['checksum']
         file.close()
     except FileNotFoundError:
         print("No Version Found:Getting actual Version from Server")
         version='0'
+        checksum='0'
 def updateClientInfo(jsono):
+
     """Updates the updateinfo.txt with new  Information out of a JSON-String"""
+    print (jsono['name'])
+    try:
+        os.remove('./'+jsono['name'])
+    except FileNotFoundError:
+        pass
+    try:
+            os.remove('./downloads/' + jsono['name'][:-4]+'.txt')
+    except FileNotFoundError:
+        pass
     urllib.request.urlretrieve(jsono['url'],jsono['name'])
+
     file = open('updateinfo.txt', 'w')
     if platform.system()== 'Linux':
         call([jsono['script'],jsono['name']])
         fileInfo=open('./downloads/'+jsono['name'][:-4]+ ".txt",'r')
         d=fileInfo.read()
-        file.write(d)
+        file.write(d[:-1]+',"checksum":"'+jsono['checksum']+'"}')
         file.close()
     if platform.system()=='Windows':
         file.write('{"name": "'+jsono['name']+'", "version": "'+ str(jsono['version'])+'", "url": "' +jsono['url']+ '"}')

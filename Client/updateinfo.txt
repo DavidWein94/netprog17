@@ -1,0 +1,1 @@
+{"request":"update","name":"dsada.zip","version":"890.0","url":"http://192.168.0.38:5000/updates/downloads/dsada","script":"unzip","checksum":"36140098d49ef034bddf5cb96b2c9645"}

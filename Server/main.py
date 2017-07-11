@@ -1,6 +1,7 @@
+#!/usr/bin/python
 from socket import *
 from flask import *
-import threading,json,time,datetime,zipfile,os
+import threading,json,time,datetime,zipfile,os,hashlib
 from flask_sqlalchemy import SQLAlchemy
 from threading import Thread
 
@@ -16,7 +17,8 @@ serversocket.bind(('0.0.0.0', 5001))
 serversocket.listen(5)
 LocalUrl='http://192.168.0.38:5000/updates/downloads/'
 URL="http://192.168.0.38:5000"
-
+CHECK_ALIVE=5
+CHECK_UPDATE=6
 
 class Client(db.Model):
     id = db.Column('client_id', db.Integer, primary_key=True)
@@ -43,7 +45,7 @@ class UpdatePackage(db.Model):
     version=db.Column(db.Float)
     url=db.Column(db.String(100))
     script=db.Column(db.String(100))
-
+    checksum=db.Column(db.String(100))
     def __init__(self,packageName,version,url,script):
         self.packageName=packageName
         self.version=version
@@ -82,6 +84,7 @@ def createUpdatePackage(name,version):
     zf = zipfile.ZipFile('./downloads/'+ update.packageName, mode='w')
     zf.write('./downloads/'+ update.packageName[:-4] + '.txt')
     zf.close()
+    update.checksum=hashlib.md5(open('./downloads/' + update.packageName, 'rb').read()).hexdigest()
     os.remove('./downloads/' + update.packageName[:-4] + '.txt')
     db.session.add(update)
     db.session.commit()
@@ -94,6 +97,8 @@ def initialaseUpdateDB():
         createUpdatePackage('UpdateC', 3.0)
         createUpdatePackage('UpdateD', 4.0)
         createUpdatePackage('UpdateE', 5.0)
+
+
 def createServer():
     global serversocket
     print('Waiting for Connections\n')
@@ -135,6 +140,7 @@ def createServer():
 
 def checkAlive():
     global serversocket
+    global CHECK_ALIVE
     for c in Client.query.all():  #at start no client ist connectet
         c.alive=str(False)
         db.session.commit()
@@ -158,10 +164,11 @@ def checkAlive():
                 csockets.pop(s)
                 lockcs.release()
 
-        time.sleep(10)
+        time.sleep(CHECK_ALIVE)
 
 
 def checkUpdateRequest():
+    global CHECK_UPDATE
     while True:
         max = 0
         maxUp = None
@@ -177,20 +184,24 @@ def checkUpdateRequest():
             for k in keys:
                 try:
                     recieved=k.recv(100).decode("utf-8")
+                    print(recieved)
                     jsonupdate = json.loads(recieved)
-                    if (float(jsonupdate['Update']) < float(max)):
+                    if (float(jsonupdate['Update']) < float(max) or str(maxUp.checksum) != str(jsonupdate['checksum'])):
                         updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
-                            maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script +'"}'
+                            maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script +'","checksum":"' + maxUp.checksum + '"}'
                         #print(updatemessage)
                         k.send(str.encode(updatemessage))
                         print('UpdateMessageSend')
                     else:
-                        print(recieved)
+
+                        #print(maxUp.checksum)
+                        #print(recieved)
                         continue
                         #print("Actual version")
-                except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError):
-                    print('No UpdateRequests \n')
-        time.sleep(10)
+                except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError,BrokenPipeError):
+                    #print('No UpdateRequests \n')
+                    continue
+        time.sleep(CHECK_UPDATE)
 
 @app.route('/')
 def main():
