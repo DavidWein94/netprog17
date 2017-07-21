@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from socket import *
 from flask import *
-import threading,json,time,datetime,zipfile,os,hashlib
+import threading,json,time,datetime,zipfile,os,hashlib,pydoc
 from flask_sqlalchemy import SQLAlchemy
 from threading import Thread
 
@@ -9,6 +9,7 @@ from threading import Thread
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db=SQLAlchemy(app)
 lockDB=threading.Lock()
 session=db.session()
@@ -22,6 +23,7 @@ CHECK_UPDATE=3
 maxV=0
 
 class Client(db.Model):
+    """Clienten Klasse"""
     id = db.Column('client_id', db.Integer, primary_key=True)
     hostname = db.Column(db.String(100))
     datum = db.Column(db.String(100))
@@ -41,6 +43,7 @@ class Client(db.Model):
         self.alive=str(True)
 
 class UpdatePackage(db.Model):
+    """Update Klasse"""
     id = db.Column('client_id', db.Integer, primary_key=True)
     packageName=db.Column(db.String(100))
     version=db.Column(db.Float)
@@ -56,7 +59,7 @@ class UpdatePackage(db.Model):
 
 db.create_all()
 def newUpdate():
-
+    """Diese Methode erstellt ein neues Update"""
     time.sleep(2)
     while(True):
         inpu=input('For Entering new Update write New:')
@@ -82,7 +85,7 @@ def newUpdate():
 
         time.sleep(2)
 def createUpdatePackage(name,version):
-
+    """Diese Methode fügt ein neues Update in die Datenbank ein"""
     upList=UpdatePackage.query.all()
     for u in upList:
         if u.packageName == (name + '.zip') :
@@ -109,6 +112,7 @@ def createUpdatePackage(name,version):
     settingMax()
     print('Added new Update: ' + name +' \n' )
 def initialaseUpdateDB():
+    """Diese Methode initialisert,falls noch nicht vorhanden,die Datenbank mit Werten"""
     if(len(list(UpdatePackage.query.all())) == 0):
         createUpdatePackage('UpdateA',1.0)
         createUpdatePackage('UpdateAb', 1.5)
@@ -119,7 +123,7 @@ def initialaseUpdateDB():
 
 
 def createServer():
-
+    """Diese Methode startet den Server und nimmt Verbindungen zu Clienten entgegen"""
     global serversocket
     skip=False
     print('Waiting for Connections\n')
@@ -131,7 +135,8 @@ def createServer():
             (clientsocket, address) = serversocket.accept()
             print('Connected\n')
             print(address)
-            jsonobject=json.loads(clientsocket.recv(1024).decode())
+            rec=clientsocket.recv(1024).decode()
+            jsonobject=json.loads(rec)
             #print(jsonobject['hostname'])
             #print(jsonobject['cpu'])
             db.session.commit()
@@ -179,6 +184,7 @@ def createServer():
         serversocket.close()
 
 def checkAliveSocket(s,cID):
+    """Diese Methode checkt ob der angegebene Socket noch aktiv ist"""
     open=True
     client=Client.query.filter(Client.id == cID).first()
     hostname=client.hostname
@@ -206,6 +212,7 @@ def checkAliveSocket(s,cID):
 
 
 def settingMax():
+    """Diese Methode sucht die maximale Version der Updates"""
     global maxV
     global maxUp
     for upd in UpdatePackage.query.all():
@@ -213,9 +220,10 @@ def settingMax():
             maxV = upd.version
             maxUp = upd
             # print(max)
-    print('New Max Version: ' +str(maxV))
+    print('Max Version: ' +str(maxV))
 
 def checkUpdateRequest(s):
+    """Diese Methode beantwortet Update Nachfragen der Clienten"""
     global maxV
     global maxUp
     while True:
@@ -257,6 +265,7 @@ def runFlask():
 if __name__ == "__main__":
     initialaseUpdateDB()
     settingMax()
+    print('Server started.')
     t = Thread(target=createServer)
     t.start()
     update = Thread(target=newUpdate)
