@@ -16,9 +16,9 @@ serversocket.bind(('0.0.0.0', 5001))
 serversocket.listen(5)
 LocalUrl='http://192.168.0.59:5000/updates/downloads/'
 URL="http://192.168.0.59:5000"
-CHECK_ALIVE=5
+CHECK_ALIVE=3
 CHECK_UPDATE=6
-max=0
+maxV=0
 
 class Client(db.Model):
     id = db.Column('client_id', db.Integer, primary_key=True)
@@ -55,17 +55,30 @@ class UpdatePackage(db.Model):
 
 db.create_all()
 def newUpdate():
-    time.sleep(8)
+    time.sleep(2)
     while(True):
-        inpu=input('For Entering new Update write Yes:')
-        if inpu =="Yes":
+        inpu=input('For Entering new Update write New:')
+
+        if inpu =="New":
+
             name=input("Name of Update: ")
+            try:
+                name.encode("ascii")
+            except UnicodeEncodeError:
+                print('UpdateName must be ASCII compatible')
+                continue
             version=input("Version of Update: ")
-            createUpdatePackage(name,version)
+            try:
+                float(version)
+            except ValueError:
+                print("Version must be a Number!")
+                continue
+            createUpdatePackage(name.replace(' ',''),version)
 
         else:
             print('No new Update added\n')
-        time.sleep(10)
+
+        time.sleep(2)
 def createUpdatePackage(name,version):
     upList=UpdatePackage.query.all()
     for u in upList:
@@ -118,18 +131,19 @@ def createServer():
 
                 clienten = Client.query.filter(Client.hostname == jsonobject['hostname']).all()
                 for clientb in clienten:
-                    print(str(address[0]) + "   " +str(clientb.ip))
-                    print(clientb.alive)
+
                     if clientb.ip ==address[0]:
                         if clientb.alive==str(True):
                             print('Existing:Connected\n')
                             clientsocket.close()
+                            break;
                         else:
                             clientsocket.setblocking(0)
                             print('Existing:Not Connected\n')
                             clientb.datum = str(datetime.datetime.now())[:16]
                             clientb.alive=str(True)
                             db.session.commit()
+
                             cID = Client.query.filter(Client.hostname == jsonobject['hostname'])[0].id
                             a = Thread(target=checkAliveSocket, args=(clientsocket, cID,))
                             a.start()
@@ -137,63 +151,65 @@ def createServer():
                             cU.start()
                             break
             else:
-                print('else')
                 c=Client(jsonobject['hostname'],address[0],jsonobject['cpu'],jsonobject['ram'],jsonobject['gpu'],str(datetime.datetime.now())[:16])
                 db.session.add(c)
                 db.session.commit()
-                cID=Client.query.filter(Client.hostname==jsonobject['hostname'])[0].id
-                a = Thread(target=checkAliveSocket, args=(clientsocket,cID,))
+                cID = Client.query.filter(Client.hostname == jsonobject['hostname'])[0].id
+                a = Thread(target=checkAliveSocket, args=(clientsocket, cID, ))
                 a.start()
-                cU = Thread(target=checkUpdateRequest, args=(clientsocket,))
+                cU = Thread(target=checkUpdateRequest, args=(clientsocket, ))
                 cU.start()
     finally:
         serversocket.close()
 
 def checkAliveSocket(s,cID):
-    while (True):
+    open=True
+    while open:
             try:
                 s.send(str.encode("Ping"))
                 Client.query.filter(Client.id == cID)[0].alive = str(True)
                 Client.query.filter(Client.id == cID)[0].datum = str(datetime.datetime.now())[:16]
                 db.session.commit()
-            except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError):
+
+            except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError,OSError):
                 Client.query.filter(Client.id == cID)[0].alive = str(False)
                 db.session.commit()
-                s.close()
+                #s.close()
+                open=False
+                print('Client with ID: ' + str(cID) + ' lost connection.')
             time.sleep(CHECK_ALIVE)
 
+
 def settingMax():
-    global max
+    global maxV
     global maxUp
     for upd in UpdatePackage.query.all():
-        if (float(upd.version) > float(max)):
-            max = upd.version
+        if (float(upd.version) > float(maxV)):
+            maxV = upd.version
             maxUp = upd
             # print(max)
-    print('New Max Version: ' +str(max))
+    print('New Max Version: ' +str(maxV))
 
 def checkUpdateRequest(s):
-    global max
+    global maxV
     global maxUp
     while True:
         try:
             recieved = s.recv(100).decode("utf-8")
             print(recieved)
             jsonupdate = json.loads(recieved)
-            if (float(jsonupdate['Update']) < float(max) or str(maxUp.checksum) != str(jsonupdate['checksum'])):
+            if (float(jsonupdate['Update']) < float(maxV) or str(maxUp.checksum) != str(jsonupdate['checksum'])):
                 updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
-                    maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script + '","checksum":"' + maxUp.checksum + '"}'
-                # print(updatemessage)
+                maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script + '","checksum":"' + maxUp.checksum + '"}'
                 s.send(str.encode(updatemessage))
                 print('UpdateMessageSend')
-            else:
-                # print(maxUp.checksum)
-                # print(recieved)
-                continue
-                # print("Actual version")
-        except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError, BrokenPipeError,json.decoder.JSONDecodeError):
-            # print('No UpdateRequests \n')
+        except (BlockingIOError, TimeoutError, BrokenPipeError,json.decoder.JSONDecodeError):
+            time.sleep(CHECK_UPDATE)
             continue
+        except (ConnectionAbortedError, ConnectionResetError):
+            s.close()
+            return
+        time.sleep(CHECK_UPDATE)
 
 
 @app.route('/')
