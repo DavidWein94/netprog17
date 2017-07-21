@@ -10,15 +10,15 @@ from threading import Thread
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
 db=SQLAlchemy(app)
-csockets={}
-lockcs=threading.Lock()
+lockDB=threading.Lock()
 serversocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
 serversocket.bind(('0.0.0.0', 5001))
 serversocket.listen(5)
-LocalUrl='http://192.168.0.38:5000/updates/downloads/'
-URL="http://192.168.0.38:5000"
+LocalUrl='http://192.168.0.59:5000/updates/downloads/'
+URL="http://192.168.0.59:5000"
 CHECK_ALIVE=5
 CHECK_UPDATE=6
+max=0
 
 class Client(db.Model):
     id = db.Column('client_id', db.Integer, primary_key=True)
@@ -88,6 +88,7 @@ def createUpdatePackage(name,version):
     os.remove('./downloads/' + update.packageName[:-4] + '.txt')
     db.session.add(update)
     db.session.commit()
+    settingMax()
     print('Added new Update: ' + name +' \n' )
 def initialaseUpdateDB():
     if(len(list(UpdatePackage.query.all())) == 0):
@@ -102,7 +103,9 @@ def initialaseUpdateDB():
 def createServer():
     global serversocket
     print('Waiting for Connections\n')
-
+    for c in Client.query.all():  # at start no client ist connectet
+        c.alive = str(False)
+        db.session.commit()
     try:
         while (1):
             (clientsocket, address) = serversocket.accept()
@@ -115,93 +118,83 @@ def createServer():
 
                 clienten = Client.query.filter(Client.hostname == jsonobject['hostname']).all()
                 for clientb in clienten:
-                    Client.query.filter(Client.ip == clientb.ip)
-                    idc = clientb.id
-                lockcs.acquire()
-                if idc in csockets.values():
-                    print('Existing:Connected\n')
-                    clientsocket.close()
-                else:
-                    clientsocket.setblocking(0)
-                    print('Existing:Not Connected\n')
-                    csockets.update({clientsocket: idc})
-                    Client.query.filter(Client.id == idc)[0].datum = str(datetime.datetime.now())[:16]
-                    db.session.commit()
-                lockcs.release()
+                    print(str(address[0]) + "   " +str(clientb.ip))
+                    print(clientb.alive)
+                    if clientb.ip ==address[0]:
+                        if clientb.alive==str(True):
+                            print('Existing:Connected\n')
+                            clientsocket.close()
+                        else:
+                            clientsocket.setblocking(0)
+                            print('Existing:Not Connected\n')
+                            clientb.datum = str(datetime.datetime.now())[:16]
+                            clientb.alive=str(True)
+                            db.session.commit()
+                            cID = Client.query.filter(Client.hostname == jsonobject['hostname'])[0].id
+                            a = Thread(target=checkAliveSocket, args=(clientsocket, cID,))
+                            a.start()
+                            cU = Thread(target=checkUpdateRequest, args=(clientsocket,))
+                            cU.start()
+                            break
             else:
+                print('else')
                 c=Client(jsonobject['hostname'],address[0],jsonobject['cpu'],jsonobject['ram'],jsonobject['gpu'],str(datetime.datetime.now())[:16])
                 db.session.add(c)
                 db.session.commit()
-                lockcs.acquire()
-                csockets.update({clientsocket: c.id})
-                lockcs.release()
+                cID=Client.query.filter(Client.hostname==jsonobject['hostname'])[0].id
+                a = Thread(target=checkAliveSocket, args=(clientsocket,cID,))
+                a.start()
+                cU = Thread(target=checkUpdateRequest, args=(clientsocket,))
+                cU.start()
     finally:
         serversocket.close()
 
-def checkAlive():
-    global serversocket
-    global CHECK_ALIVE
-    for c in Client.query.all():  #at start no client ist connectet
-        c.alive=str(False)
-        db.session.commit()
-    while(True):
-
-        lockcs.acquire()
-        keys=csockets.keys()
-        lockcs.release()
-
-        for s in list(keys):
+def checkAliveSocket(s,cID):
+    while (True):
             try:
                 s.send(str.encode("Ping"))
-                Client.query.filter(Client.id == csockets[s])[0].alive = str(True)
-                Client.query.filter(Client.id == csockets[s])[0].datum = str(datetime.datetime.now())[:16]
+                Client.query.filter(Client.id == cID)[0].alive = str(True)
+                Client.query.filter(Client.id == cID)[0].datum = str(datetime.datetime.now())[:16]
                 db.session.commit()
-            except (ConnectionAbortedError,ConnectionResetError,BrokenPipeError):
-                Client.query.filter(Client.id == csockets[s])[0].alive=str(False)
+            except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError):
+                Client.query.filter(Client.id == cID)[0].alive = str(False)
                 db.session.commit()
                 s.close()
-                lockcs.acquire()
-                csockets.pop(s)
-                lockcs.release()
+            time.sleep(CHECK_ALIVE)
 
-        time.sleep(CHECK_ALIVE)
+def settingMax():
+    global max
+    global maxUp
+    for upd in UpdatePackage.query.all():
+        if (float(upd.version) > float(max)):
+            max = upd.version
+            maxUp = upd
+            # print(max)
+    print('New Max Version: ' +str(max))
 
-
-def checkUpdateRequest():
-    global CHECK_UPDATE
+def checkUpdateRequest(s):
+    global max
+    global maxUp
     while True:
-        max = 0
-        maxUp = None
-        for upd in UpdatePackage.query.all():
-            if (float(upd.version) > float(max)):
-                max = upd.version
-                maxUp = upd
-               # print(max)
-        lockcs.acquire()
-        keys = list(csockets.keys())
-        lockcs.release()
-        if len(list(keys)) > 0:
-            for k in keys:
-                try:
-                    recieved=k.recv(100).decode("utf-8")
-                    print(recieved)
-                    jsonupdate = json.loads(recieved)
-                    if (float(jsonupdate['Update']) < float(max) or str(maxUp.checksum) != str(jsonupdate['checksum'])):
-                        updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
-                            maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script +'","checksum":"' + maxUp.checksum + '"}'
-                        #print(updatemessage)
-                        k.send(str.encode(updatemessage))
-                        print('UpdateMessageSend')
-                    else:
+        try:
+            recieved = s.recv(100).decode("utf-8")
+            print(recieved)
+            jsonupdate = json.loads(recieved)
+            if (float(jsonupdate['Update']) < float(max) or str(maxUp.checksum) != str(jsonupdate['checksum'])):
+                updatemessage = '{"request":"update","name":"' + maxUp.packageName + '","version":"' + str(
+                    maxUp.version) + '","url":"' + maxUp.url + '","script":"' + maxUp.script + '","checksum":"' + maxUp.checksum + '"}'
+                # print(updatemessage)
+                s.send(str.encode(updatemessage))
+                print('UpdateMessageSend')
+            else:
+                # print(maxUp.checksum)
+                # print(recieved)
+                continue
+                # print("Actual version")
+        except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError, BrokenPipeError,json.decoder.JSONDecodeError):
+            # print('No UpdateRequests \n')
+            continue
 
-                        #print(maxUp.checksum)
-                        #print(recieved)
-                        continue
-                        #print("Actual version")
-                except (BlockingIOError, ConnectionAbortedError, ConnectionResetError, TimeoutError,BrokenPipeError):
-                    #print('No UpdateRequests \n')
-                    continue
-        time.sleep(CHECK_UPDATE)
 
 @app.route('/')
 def main():
@@ -223,12 +216,9 @@ def runFlask():
 
 if __name__ == "__main__":
     initialaseUpdateDB()
+    settingMax()
     t = Thread(target=createServer)
     t.start()
-    a = Thread(target=checkAlive)
-    a.start()
-    cU = Thread(target=checkUpdateRequest)
-    cU.start()
     update = Thread(target=newUpdate)
     update.start()
     flas=Thread(target=runFlask)
