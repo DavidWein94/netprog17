@@ -16,18 +16,9 @@
 
     <nav role="navigation" class="navbar navbar-default">
         <div class="container">
-            <div class="navbar-header">
-                <button data-target="#navbar-collapse-02" data-toggle="collapse" class="navbar-toggle" type="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-
             <div id="navbar-collapse-02" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/updates">Updates</a></li>
+                    <li class="active"><a href="/updates"><font size="5">Updates</font></a></li>
                     <li><a href="#"></a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -42,29 +33,29 @@
 
                     <div class="text-left">
 
-                        <table class="table">
+                        <table class="table table-bordered">
                             <thead>
-                            <tr>
-                                <th>Hostname</th>
-								<th>IP</th>
-								<th>CPU</th>
-								<th>GPU</th>
-								<th>RAM[GB]</th>
-								<th>Datum</th>
-								<th>Alive</th>
+                            <tr class="active">
+                                <th><font size="5">Hostname</font></th>
+								<th><font size="5">IP</font></th>
+								<th><font size="5">CPU</font></th>
+								<th><font size="5">GPU</font></th>
+								<th><font size="5">RAM[GB]</font></th>
+								<th><font size="5">Datum</font></th>
+								<th><font size="5">Alive</font></th>
                             </tr>
                             </thead>
                             <tbody>
 
                             {%for client in clients%}
-                            <tr class="info">
-                                <td>{{client.hostname}}</td>
-								<td>{{client.ip}}</td>
-								<td>{{client.cpu}}</td>
-								<td>{{client.gpu}}</td>
-								<td>{{client.ram}}</td>
-								<td>{{client.datum}}</td>
-								<td>{{client.alive}}</td>
+                           <tr >
+                                <td><font size="4">{{client.hostname}}</font></td>
+								<td><font size="4">{{client.ip}}</font></td>
+								<td><font size="4">{{client.cpu}}</font></td>
+								<td><font size="4">{{client.gpu}}</font></td>
+								<td><font size="4">{{client.ram}}</font></td>
+								<td><font size="4">{{client.datum}}</font></td>
+								<td><font size="4">{{client.alive}}</font></td>
 								</tr>
                             {% endfor %}
 

@@ -19,15 +19,9 @@
 
     <nav role="navigation" class="navbar navbar-default">
         <div class="container">
-            <div class="navbar-header">
-                <button data-target="#navbar-collapse-02" data-toggle="collapse" class="navbar-toggle" type="button">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
             <div id="navbar-collapse-02" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="/">Clienten</a></li>
+                    <li class="active"><a href="/"><font size="5">Clienten</font></a></li>
                     <li><a href="#"></a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -43,22 +37,22 @@
 
                     <div class="text-left">
 
-                        <table class="table">
+                        <table class="table table-bordered">
                             <thead>
-                            <tr>
-                                <th>Update</th>
-								<th>Version</th>
-								<th>Download</th>
+                            <tr class="active">
+                                <th><font size="5">Update</font></th>
+								<th><font size="5">Version</font></th>
+								<th><font size="5">Download</font></th>
 
                             </tr>
                             </thead>
                             <tbody>
 							{%for update in updates%}
-							<tr class="info">
+							<tr>
 				
-							<td>{{update.packageName}}</td>
-							<td>{{update.version}}</td>
-							<td><a href={{update.url}}>Download</a></td>
+							<td><font size="4">{{update.packageName}}</font></td>
+							<td><font size="4">{{update.version}}</font></td>
+							<td><a href={{update.url}}><font size="4">Download</font></a></td>
 		                     </tr>
                             {% endfor %}
 
