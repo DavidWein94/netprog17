@@ -1,7 +1,7 @@
 #!/usr/bin/python
 from socket import *
 from flask import *
-import threading,json,time,datetime,zipfile,os,hashlib,pydoc
+import threading,json,time,datetime,zipfile,os,hashlib,pydoc,sys
 from flask_sqlalchemy import SQLAlchemy
 from threading import Thread
 
@@ -16,8 +16,8 @@ session=db.session()
 serversocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
 serversocket.bind(('0.0.0.0', 5001))
 serversocket.listen(5)
-LocalUrl='http://192.168.0.59:5000/updates/downloads/'
-URL="http://192.168.0.59:5000"
+LocalUrl='http://192.168.0.42:5000/updates/downloads/'
+URL="http://192.168.0.42:5000"
 CHECK_ALIVE=1
 CHECK_UPDATE=3
 maxV=0
@@ -79,13 +79,16 @@ def newUpdate():
                 print("Version must be a Number!")
                 continue
             createUpdatePackage(name.replace(' ',''),version)
-
+        elif inpu=="Quit":
+            serversocket.close()
+            print('Server stopped')
+            os._exit(1)
         else:
             print('No new Update added\n')
 
         time.sleep(2)
 def createUpdatePackage(name,version):
-    """Diese Methode fügt ein neues Update in die Datenbank ein"""
+    """Diese Methode fuegt ein neues Update in die Datenbank ein"""
     upList=UpdatePackage.query.all()
     for u in upList:
         if u.packageName == (name + '.zip') :
