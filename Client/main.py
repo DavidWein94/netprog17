@@ -2,7 +2,7 @@ import socket,time,platform
 from threading import Thread
 import time,math,psutil,cpuinfo,json
 from subprocess import call,Popen,PIPE
-import urllib.request,zipfile,os
+import urllib.request,os
 
 connection=False
 version=0
@@ -145,7 +145,7 @@ def updateClientInfo(jsono):
 while(True):
     if connection==False:
         print('Trying to connect')
-        t=Thread(target=connect)
-        t.start()
+        connect()
+
 
     time.sleep(60)
