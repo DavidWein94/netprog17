@@ -169,7 +169,7 @@ def createServer():
     for c in db.session.query(Client):  # at start no client ist connectet
         c.alive = str(False)
         db.session.commit()
-    
+    try:
         while (1):
             try:
                 (clientsocket, address) = serversocket.accept()
