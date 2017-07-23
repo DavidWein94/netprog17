@@ -60,8 +60,11 @@ def get_hostname():
     :return: Hostname of the Computer"""
     return str(platform.node())
 def get_ram():
-    """Returns the RAM of the Computer using the Script
-    :return:GPU of the Computer
+    """Returns the RAM of the Computer using the Script"""
+    return str(math.ceil(psutil.virtual_memory()[0]/2.**30))
+def get_gpu():
+    """Returns the GPU of the Computer using the Script
+    :return: nothing
     """
     if platform.system() == 'Linux':
         d = Popen(["lshw", "-c", "display"], stdout=PIPE).stdout.read()
@@ -77,6 +80,7 @@ def get_ram():
         gpu_info = computer.Win32_VideoController()[0]
         return format(gpu_info.Name)
     return 'System not Linux or Windows'
+
 def jsonHardwareInformation():
         """Returns a JSON-String of the Hardwareinformation in bytes
         :return:JSON-STRING of the Hardware Information"""
