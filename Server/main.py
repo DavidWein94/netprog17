@@ -11,13 +11,12 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db=SQLAlchemy(app)
-
-session=db.session()
 serversocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
+serversocket.setsockopt(SOL_SOCKET,SO_REUSEADDR,1)
 serversocket.bind(('0.0.0.0', 5001))
 serversocket.listen(5)
-LocalUrl='http://192.168.0.42:5000/updates/downloads/'
-URL="http://192.168.0.42:5000"
+LocalUrl='http://192.168.0.38:5000/updates/downloads/'
+URL="http://192.168.0.38:5000"
 CHECK_ALIVE=1
 CHECK_UPDATE=3
 maxV=0
@@ -80,7 +79,9 @@ def newUpdate():
                 continue
             createUpdatePackage(name.replace(' ',''),version)
         elif inpu=="Quit":
+            
             serversocket.close()
+            print ('Socket closed')
             print('Server stopped')
             os._exit(1)
         else:

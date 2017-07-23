@@ -8,7 +8,7 @@ connection=False
 version=0
 checksum=str(0)
 s=None
-SERVERIP='192.168.0.42'
+SERVERIP='192.168.0.38'
 SERVERPORT=5001
 def connect():
     global connection
