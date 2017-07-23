@@ -169,60 +169,63 @@ def createServer():
     for c in db.session.query(Client):  # at start no client ist connectet
         c.alive = str(False)
         db.session.commit()
-    try:
+    
         while (1):
-            (clientsocket, address) = serversocket.accept()
-            print('Connected\n')
-            print(address)
-            rec=clientsocket.recv(1024).decode()
-            jsonobject=json.loads(rec)
-            #print(jsonobject['hostname'])
-            #print(jsonobject['cpu'])
-
-            db.session.commit()
-
-           # if(len(Client.query.filter(Client.hostname==jsonobject['hostname']) != 0 and Client.query.filter(Client.ip==address[0] )) == True):
-            clienten =Client.query.filter(Client.hostname == jsonobject['hostname']).all()
-
-
-            for clientb in clienten:
-
-                if clientb.ip ==address[0] and clientb.hostname== jsonobject['hostname']:
-                    skip=True
-                    # print(str(clientb.alive) +"  " + str(clientb.id))
-                    if clientb.alive==str(True):
-                        print('Existing:Already Connected\n')
-                        clientsocket.close()
-                        break
-                    else:
-                        clientsocket.setblocking(0)
-                        print('Existing:Not Connected\n')
-                        clientb.datum = str(datetime.datetime.now())[:16]
-                        #clientb.alive=str(True)
-
-                        db.session.commit()
-
-
-
-                        cID = Client.query.filter(Client.hostname == jsonobject['hostname']).first().id
-                        a = Thread(target=checkAliveSocket, args=(clientsocket, cID,))
-                        a.start()
-                        cU = Thread(target=checkUpdateRequest, args=(clientsocket,))
-                        cU.start()
-                        break
-            if skip==False:
-                c=Client(jsonobject['hostname'],address[0],jsonobject['cpu'],jsonobject['ram'],jsonobject['gpu'],str(datetime.datetime.now())[:16])
-                db.session.add(c)
+            try:
+                (clientsocket, address) = serversocket.accept()
+                print('Connected\n')
+                print(address)
+                rec=clientsocket.recv(1024).decode()
+                jsonobject=json.loads(rec)
+                #print(jsonobject['hostname'])
+                #print(jsonobject['cpu'])
 
                 db.session.commit()
 
-                cID =Client.query.filter(Client.hostname == jsonobject['hostname']).first().id
-                a = Thread(target=checkAliveSocket, args=(clientsocket, cID, ))
-                a.start()
-                cU = Thread(target=checkUpdateRequest, args=(clientsocket, ))
-                cU.start()
-                print('New Client ' + jsonobject['hostname'] + ' added!')
-            skip=False
+            # if(len(Client.query.filter(Client.hostname==jsonobject['hostname']) != 0 and Client.query.filter(Client.ip==address[0] )) == True):
+                clienten =Client.query.filter(Client.hostname == jsonobject['hostname']).all()
+
+
+                for clientb in clienten:
+
+                    if clientb.ip ==address[0] and clientb.hostname== jsonobject['hostname']:
+                        skip=True
+                        # print(str(clientb.alive) +"  " + str(clientb.id))
+                        if clientb.alive==str(True):
+                            print('Existing:Already Connected\n')
+                            clientsocket.close()
+                            break
+                        else:
+                            clientsocket.setblocking(0)
+                            print('Existing:Not Connected\n')
+                            clientb.datum = str(datetime.datetime.now())[:16]
+                            #clientb.alive=str(True)
+
+                            db.session.commit()
+
+
+
+                            cID = Client.query.filter(Client.hostname == jsonobject['hostname']).first().id
+                            a = Thread(target=checkAliveSocket, args=(clientsocket, cID,))
+                            a.start()
+                            cU = Thread(target=checkUpdateRequest, args=(clientsocket,))
+                            cU.start()
+                            break
+                if skip==False:
+                    c=Client(jsonobject['hostname'],address[0],jsonobject['cpu'],jsonobject['ram'],jsonobject['gpu'],str(datetime.datetime.now())[:16])
+                    db.session.add(c)
+
+                    db.session.commit()
+
+                    cID =Client.query.filter(Client.hostname == jsonobject['hostname']).first().id
+                    a = Thread(target=checkAliveSocket, args=(clientsocket, cID, ))
+                    a.start()
+                    cU = Thread(target=checkUpdateRequest, args=(clientsocket, ))
+                    cU.start()
+                    print('New Client ' + jsonobject['hostname'] + ' added!')
+                skip=False
+            except Exception:
+                continue
     finally:
         serversocket.close()
 
