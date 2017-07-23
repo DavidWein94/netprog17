@@ -1,0 +1,585 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module main</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>main</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/david/netprog17/Server/main.py">/home/david/netprog17/Server/main.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="flask.blueprints.html">flask.blueprints</a><br>
+<a href="flask.config.html">flask.config</a><br>
+<a href="flask.ctx.html">flask.ctx</a><br>
+<a href="datetime.html">datetime</a><br>
+<a href="flask.debughelpers.html">flask.debughelpers</a><br>
+</td><td width="25%" valign=top><a href="flask.globals.html">flask.globals</a><br>
+<a href="hashlib.html">hashlib</a><br>
+<a href="flask.helpers.html">flask.helpers</a><br>
+<a href="json.html">json</a><br>
+<a href="flask.module.html">flask.module</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="pydoc.html">pydoc</a><br>
+<a href="flask.sessions.html">flask.sessions</a><br>
+<a href="flask.signals.html">flask.signals</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="flask.templating.html">flask.templating</a><br>
+<a href="threading.html">threading</a><br>
+<a href="time.html">time</a><br>
+<a href="flask.wrappers.html">flask.wrappers</a><br>
+<a href="zipfile.html">zipfile</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial">flask_sqlalchemy.Model(<a href="flask_sqlalchemy.html#Model">flask_sqlalchemy.Model</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="main.html#Client">Client</a>
+</font></dt><dt><font face="helvetica, arial"><a href="main.html#UpdatePackage">UpdatePackage</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="Client">class <strong>Client</strong></a>(flask_sqlalchemy.Model)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Clienten&nbsp;Class<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#Client">Client</a></dd>
+<dd>flask_sqlalchemy.Model</dd>
+<dd><a href="flask_sqlalchemy.html#Model">flask_sqlalchemy.Model</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="Client-__init__"><strong>__init__</strong></a>(self, hostname, ip, cpu, ram, gpu, date)</dt><dd><tt>Constructs&nbsp;a&nbsp;new&nbsp;<a href="#Client">Client</a>&nbsp;object.<br>
+:param&nbsp;hostname:&nbsp;Hostname&nbsp;of&nbsp;the&nbsp;<a href="#Client">Client</a><br>
+:param&nbsp;ip:&nbsp;IP-Address&nbsp;of&nbsp;the&nbsp;<a href="#Client">Client</a><br>
+:param&nbsp;cpu:&nbsp;CPU&nbsp;of&nbsp;the&nbsp;<a href="#Client">Client</a><br>
+:param&nbsp;ram:&nbsp;RAM&nbsp;of&nbsp;the&nbsp;<a href="#Client">Client</a><br>
+:param&nbsp;gpu:&nbsp;GPU&nbsp;of&nbsp;the&nbsp;<a href="#Client">Client</a><br>
+:param&nbsp;date:&nbsp;Date&nbsp;of&nbsp;the&nbsp;last&nbsp;Connection&nbsp;of&nbsp;the&nbsp;<a href="#Client">Client</a><br>
+:param&nbsp;alive:&nbsp;If&nbsp;<a href="#Client">Client</a>&nbsp;is&nbsp;still&nbsp;connected&nbsp;with&nbsp;the&nbsp;Server<br>
+:return:&nbsp;returns&nbsp;nothing</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>alive</strong></dt>
+</dl>
+<dl><dt><strong>cpu</strong></dt>
+</dl>
+<dl><dt><strong>datum</strong></dt>
+</dl>
+<dl><dt><strong>gpu</strong></dt>
+</dl>
+<dl><dt><strong>hostname</strong></dt>
+</dl>
+<dl><dt><strong>id</strong></dt>
+</dl>
+<dl><dt><strong>ip</strong></dt>
+</dl>
+<dl><dt><strong>ram</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x7f737332ff50; Client&gt;</dl>
+
+<dl><dt><strong>__table__</strong> = Table('client', MetaData(bind=None), Column('cli... String(length=40), table=&lt;client&gt;), schema=None)</dl>
+
+<dl><dt><strong>__tablename__</strong> = 'client'</dl>
+
+<hr>
+Methods inherited from flask_sqlalchemy.Model:<br>
+<strong>query</strong> = &lt;flask_sqlalchemy.BaseQuery object&gt;
+<hr>
+Data and other attributes inherited from flask_sqlalchemy.Model:<br>
+<dl><dt><strong>metadata</strong> = MetaData(bind=None)</dl>
+
+<hr>
+Data descriptors inherited from <a href="flask_sqlalchemy.html#Model">flask_sqlalchemy.Model</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask_sqlalchemy.html#Model">flask_sqlalchemy.Model</a>:<br>
+<dl><dt><strong>query_class</strong> = &lt;class 'flask_sqlalchemy.BaseQuery'&gt;<dd><tt>The&nbsp;default&nbsp;query&nbsp;object&nbsp;used&nbsp;for&nbsp;models,&nbsp;and&nbsp;exposed&nbsp;as<br>
+:attr:`~SQLAlchemy.Query`.&nbsp;This&nbsp;can&nbsp;be&nbsp;subclassed&nbsp;and<br>
+replaced&nbsp;for&nbsp;individual&nbsp;models&nbsp;by&nbsp;setting&nbsp;the&nbsp;:attr:`~Model.query_class`<br>
+attribute.&nbsp;&nbsp;This&nbsp;is&nbsp;a&nbsp;subclass&nbsp;of&nbsp;a&nbsp;standard&nbsp;SQLAlchemy<br>
+:class:`~sqlalchemy.orm.query.Query`&nbsp;class&nbsp;and&nbsp;has&nbsp;all&nbsp;the&nbsp;methods&nbsp;of&nbsp;a<br>
+standard&nbsp;query&nbsp;as&nbsp;well.</tt></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="UpdatePackage">class <strong>UpdatePackage</strong></a>(flask_sqlalchemy.Model)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Update&nbsp;Class<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="main.html#UpdatePackage">UpdatePackage</a></dd>
+<dd>flask_sqlalchemy.Model</dd>
+<dd><a href="flask_sqlalchemy.html#Model">flask_sqlalchemy.Model</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="UpdatePackage-__init__"><strong>__init__</strong></a>(self, packageName, version, url, script)</dt><dd><tt>Constructs&nbsp;a&nbsp;new&nbsp;Update&nbsp;object.<br>
+:param&nbsp;packageName:&nbsp;&nbsp;Name&nbsp;of&nbsp;the&nbsp;Update<br>
+:param&nbsp;version:&nbsp;Version&nbsp;of&nbsp;the&nbsp;Update<br>
+:param&nbsp;url:&nbsp;Url&nbsp;of&nbsp;the&nbsp;Update<br>
+:param&nbsp;script:&nbsp;Script&nbsp;to&nbsp;install&nbsp;the&nbsp;Update<br>
+:return:&nbsp;&nbsp;returns&nbsp;nothing</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>checksum</strong></dt>
+</dl>
+<dl><dt><strong>id</strong></dt>
+</dl>
+<dl><dt><strong>packageName</strong></dt>
+</dl>
+<dl><dt><strong>script</strong></dt>
+</dl>
+<dl><dt><strong>url</strong></dt>
+</dl>
+<dl><dt><strong>version</strong></dt>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>__mapper__</strong> = &lt;Mapper at 0x7f7373357510; UpdatePackage&gt;</dl>
+
+<dl><dt><strong>__table__</strong> = Table('update_package', MetaData(bind=None), Col...ength=100), table=&lt;update_package&gt;), schema=None)</dl>
+
+<dl><dt><strong>__tablename__</strong> = 'update_package'</dl>
+
+<hr>
+Methods inherited from flask_sqlalchemy.Model:<br>
+<strong>query</strong> = &lt;flask_sqlalchemy.BaseQuery object&gt;
+<hr>
+Data and other attributes inherited from flask_sqlalchemy.Model:<br>
+<dl><dt><strong>metadata</strong> = MetaData(bind=None)</dl>
+
+<hr>
+Data descriptors inherited from <a href="flask_sqlalchemy.html#Model">flask_sqlalchemy.Model</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="flask_sqlalchemy.html#Model">flask_sqlalchemy.Model</a>:<br>
+<dl><dt><strong>query_class</strong> = &lt;class 'flask_sqlalchemy.BaseQuery'&gt;<dd><tt>The&nbsp;default&nbsp;query&nbsp;object&nbsp;used&nbsp;for&nbsp;models,&nbsp;and&nbsp;exposed&nbsp;as<br>
+:attr:`~SQLAlchemy.Query`.&nbsp;This&nbsp;can&nbsp;be&nbsp;subclassed&nbsp;and<br>
+replaced&nbsp;for&nbsp;individual&nbsp;models&nbsp;by&nbsp;setting&nbsp;the&nbsp;:attr:`~Model.query_class`<br>
+attribute.&nbsp;&nbsp;This&nbsp;is&nbsp;a&nbsp;subclass&nbsp;of&nbsp;a&nbsp;standard&nbsp;SQLAlchemy<br>
+:class:`~sqlalchemy.orm.query.Query`&nbsp;class&nbsp;and&nbsp;has&nbsp;all&nbsp;the&nbsp;methods&nbsp;of&nbsp;a<br>
+standard&nbsp;query&nbsp;as&nbsp;well.</tt></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-checkAliveSocket"><strong>checkAliveSocket</strong></a>(s, cID)</dt><dd><tt>This&nbsp;Method&nbsp;checks&nbsp;if&nbsp;the&nbsp;<a href="#Client">Client</a>&nbsp;is&nbsp;still&nbsp;connected.<br>
+:param&nbsp;s:&nbsp;Socket&nbsp;which&nbsp;connects&nbsp;to&nbsp;<a href="#Client">Client</a><br>
+:param&nbsp;cID:&nbsp;ID&nbsp;of&nbsp;the&nbsp;<a href="#Client">Client</a>&nbsp;in&nbsp;the&nbsp;Database<br>
+:return:&nbsp;nothing</tt></dd></dl>
+ <dl><dt><a name="-checkUpdateRequest"><strong>checkUpdateRequest</strong></a>(s)</dt><dd><tt>This&nbsp;Method&nbsp;checks&nbsp;for&nbsp;UpdateRequests&nbsp;of&nbsp;the&nbsp;<a href="#Client">Client</a><br>
+:param&nbsp;s:&nbsp;Socket&nbsp;which&nbsp;connects&nbsp;to&nbsp;the&nbsp;CLient<br>
+:return:&nbsp;nothing</tt></dd></dl>
+ <dl><dt><a name="-createServer"><strong>createServer</strong></a>()</dt><dd><tt>This&nbsp;Method&nbsp;connects&nbsp;to&nbsp;the&nbsp;Clients&nbsp;and&nbsp;starts&nbsp;Worker&nbsp;Threads&nbsp;for&nbsp;them.<br>
+:return:&nbsp;nothing</tt></dd></dl>
+ <dl><dt><a name="-createUpdatePackage"><strong>createUpdatePackage</strong></a>(name, version)</dt><dd><tt>This&nbsp;Method&nbsp;creates&nbsp;a&nbsp;new&nbsp;Update&nbsp;and&nbsp;saves&nbsp;it&nbsp;in&nbsp;the&nbsp;Database.<br>
+:param&nbsp;name:&nbsp;Name&nbsp;of&nbsp;the&nbsp;Update<br>
+:param&nbsp;version:&nbsp;Version&nbsp;of&nbsp;the&nbsp;Update<br>
+:return:&nbsp;nothing</tt></dd></dl>
+ <dl><dt><a name="-escape"><strong>escape</strong></a>(...)</dt><dd><tt><a href="#-escape">escape</a>(s)&nbsp;-&gt;&nbsp;markup<br>
+&nbsp;<br>
+Convert&nbsp;the&nbsp;characters&nbsp;&amp;,&nbsp;&lt;,&nbsp;&gt;,&nbsp;',&nbsp;and&nbsp;"&nbsp;in&nbsp;string&nbsp;s&nbsp;to&nbsp;HTML-safe<br>
+sequences.&nbsp;&nbsp;Use&nbsp;this&nbsp;if&nbsp;you&nbsp;need&nbsp;to&nbsp;display&nbsp;text&nbsp;that&nbsp;might&nbsp;contain<br>
+such&nbsp;characters&nbsp;in&nbsp;HTML.&nbsp;&nbsp;Marks&nbsp;return&nbsp;value&nbsp;as&nbsp;markup&nbsp;string.</tt></dd></dl>
+ <dl><dt><a name="-fromfd"><strong>fromfd</strong></a>(...)</dt><dd><tt><a href="#-fromfd">fromfd</a>(fd,&nbsp;family,&nbsp;type[,&nbsp;proto])&nbsp;-&gt;&nbsp;socket&nbsp;object<br>
+&nbsp;<br>
+Create&nbsp;a&nbsp;socket&nbsp;object&nbsp;from&nbsp;a&nbsp;duplicate&nbsp;of&nbsp;the&nbsp;given<br>
+file&nbsp;descriptor.<br>
+The&nbsp;remaining&nbsp;arguments&nbsp;are&nbsp;the&nbsp;same&nbsp;as&nbsp;for&nbsp;socket().</tt></dd></dl>
+ <dl><dt><a name="-getaddrinfo"><strong>getaddrinfo</strong></a>(...)</dt><dd><tt><a href="#-getaddrinfo">getaddrinfo</a>(host,&nbsp;port&nbsp;[,&nbsp;family,&nbsp;socktype,&nbsp;proto,&nbsp;flags])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;list&nbsp;of&nbsp;(family,&nbsp;socktype,&nbsp;proto,&nbsp;canonname,&nbsp;sockaddr)<br>
+&nbsp;<br>
+Resolve&nbsp;host&nbsp;and&nbsp;port&nbsp;into&nbsp;addrinfo&nbsp;struct.</tt></dd></dl>
+ <dl><dt><a name="-getdefaulttimeout"><strong>getdefaulttimeout</strong></a>(...)</dt><dd><tt><a href="#-getdefaulttimeout">getdefaulttimeout</a>()&nbsp;-&gt;&nbsp;timeout<br>
+&nbsp;<br>
+Returns&nbsp;the&nbsp;default&nbsp;timeout&nbsp;in&nbsp;seconds&nbsp;(float)&nbsp;for&nbsp;new&nbsp;socket&nbsp;objects.<br>
+A&nbsp;value&nbsp;of&nbsp;None&nbsp;indicates&nbsp;that&nbsp;new&nbsp;socket&nbsp;objects&nbsp;have&nbsp;no&nbsp;timeout.<br>
+When&nbsp;the&nbsp;socket&nbsp;module&nbsp;is&nbsp;first&nbsp;imported,&nbsp;the&nbsp;default&nbsp;is&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-gethostbyaddr"><strong>gethostbyaddr</strong></a>(...)</dt><dd><tt><a href="#-gethostbyaddr">gethostbyaddr</a>(host)&nbsp;-&gt;&nbsp;(name,&nbsp;aliaslist,&nbsp;addresslist)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;true&nbsp;host&nbsp;name,&nbsp;a&nbsp;list&nbsp;of&nbsp;aliases,&nbsp;and&nbsp;a&nbsp;list&nbsp;of&nbsp;IP&nbsp;addresses,<br>
+for&nbsp;a&nbsp;host.&nbsp;&nbsp;The&nbsp;host&nbsp;argument&nbsp;is&nbsp;a&nbsp;string&nbsp;giving&nbsp;a&nbsp;host&nbsp;name&nbsp;or&nbsp;IP&nbsp;number.</tt></dd></dl>
+ <dl><dt><a name="-gethostbyname"><strong>gethostbyname</strong></a>(...)</dt><dd><tt><a href="#-gethostbyname">gethostbyname</a>(host)&nbsp;-&gt;&nbsp;address<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;IP&nbsp;address&nbsp;(a&nbsp;string&nbsp;of&nbsp;the&nbsp;form&nbsp;'255.255.255.255')&nbsp;for&nbsp;a&nbsp;host.</tt></dd></dl>
+ <dl><dt><a name="-gethostbyname_ex"><strong>gethostbyname_ex</strong></a>(...)</dt><dd><tt><a href="#-gethostbyname_ex">gethostbyname_ex</a>(host)&nbsp;-&gt;&nbsp;(name,&nbsp;aliaslist,&nbsp;addresslist)<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;true&nbsp;host&nbsp;name,&nbsp;a&nbsp;list&nbsp;of&nbsp;aliases,&nbsp;and&nbsp;a&nbsp;list&nbsp;of&nbsp;IP&nbsp;addresses,<br>
+for&nbsp;a&nbsp;host.&nbsp;&nbsp;The&nbsp;host&nbsp;argument&nbsp;is&nbsp;a&nbsp;string&nbsp;giving&nbsp;a&nbsp;host&nbsp;name&nbsp;or&nbsp;IP&nbsp;number.</tt></dd></dl>
+ <dl><dt><a name="-gethostname"><strong>gethostname</strong></a>(...)</dt><dd><tt><a href="#-gethostname">gethostname</a>()&nbsp;-&gt;&nbsp;string<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;current&nbsp;host&nbsp;name.</tt></dd></dl>
+ <dl><dt><a name="-getnameinfo"><strong>getnameinfo</strong></a>(...)</dt><dd><tt><a href="#-getnameinfo">getnameinfo</a>(sockaddr,&nbsp;flags)&nbsp;--&gt;&nbsp;(host,&nbsp;port)<br>
+&nbsp;<br>
+Get&nbsp;host&nbsp;and&nbsp;port&nbsp;for&nbsp;a&nbsp;sockaddr.</tt></dd></dl>
+ <dl><dt><a name="-getprotobyname"><strong>getprotobyname</strong></a>(...)</dt><dd><tt><a href="#-getprotobyname">getprotobyname</a>(name)&nbsp;-&gt;&nbsp;integer<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;protocol&nbsp;number&nbsp;for&nbsp;the&nbsp;named&nbsp;protocol.&nbsp;&nbsp;(Rarely&nbsp;used.)</tt></dd></dl>
+ <dl><dt><a name="-getservbyname"><strong>getservbyname</strong></a>(...)</dt><dd><tt><a href="#-getservbyname">getservbyname</a>(servicename[,&nbsp;protocolname])&nbsp;-&gt;&nbsp;integer<br>
+&nbsp;<br>
+Return&nbsp;a&nbsp;port&nbsp;number&nbsp;from&nbsp;a&nbsp;service&nbsp;name&nbsp;and&nbsp;protocol&nbsp;name.<br>
+The&nbsp;optional&nbsp;protocol&nbsp;name,&nbsp;if&nbsp;given,&nbsp;should&nbsp;be&nbsp;'tcp'&nbsp;or&nbsp;'udp',<br>
+otherwise&nbsp;any&nbsp;protocol&nbsp;will&nbsp;match.</tt></dd></dl>
+ <dl><dt><a name="-getservbyport"><strong>getservbyport</strong></a>(...)</dt><dd><tt><a href="#-getservbyport">getservbyport</a>(port[,&nbsp;protocolname])&nbsp;-&gt;&nbsp;string<br>
+&nbsp;<br>
+Return&nbsp;the&nbsp;service&nbsp;name&nbsp;from&nbsp;a&nbsp;port&nbsp;number&nbsp;and&nbsp;protocol&nbsp;name.<br>
+The&nbsp;optional&nbsp;protocol&nbsp;name,&nbsp;if&nbsp;given,&nbsp;should&nbsp;be&nbsp;'tcp'&nbsp;or&nbsp;'udp',<br>
+otherwise&nbsp;any&nbsp;protocol&nbsp;will&nbsp;match.</tt></dd></dl>
+ <dl><dt><a name="-htonl"><strong>htonl</strong></a>(...)</dt><dd><tt><a href="#-htonl">htonl</a>(integer)&nbsp;-&gt;&nbsp;integer<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;32-bit&nbsp;integer&nbsp;from&nbsp;host&nbsp;to&nbsp;network&nbsp;byte&nbsp;order.</tt></dd></dl>
+ <dl><dt><a name="-htons"><strong>htons</strong></a>(...)</dt><dd><tt><a href="#-htons">htons</a>(integer)&nbsp;-&gt;&nbsp;integer<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;16-bit&nbsp;integer&nbsp;from&nbsp;host&nbsp;to&nbsp;network&nbsp;byte&nbsp;order.</tt></dd></dl>
+ <dl><dt><a name="-inet_aton"><strong>inet_aton</strong></a>(...)</dt><dd><tt><a href="#-inet_aton">inet_aton</a>(string)&nbsp;-&gt;&nbsp;packed&nbsp;32-bit&nbsp;IP&nbsp;representation<br>
+&nbsp;<br>
+Convert&nbsp;an&nbsp;IP&nbsp;address&nbsp;in&nbsp;string&nbsp;format&nbsp;(123.45.67.89)&nbsp;to&nbsp;the&nbsp;32-bit&nbsp;packed<br>
+binary&nbsp;format&nbsp;used&nbsp;in&nbsp;low-level&nbsp;network&nbsp;functions.</tt></dd></dl>
+ <dl><dt><a name="-inet_ntoa"><strong>inet_ntoa</strong></a>(...)</dt><dd><tt><a href="#-inet_ntoa">inet_ntoa</a>(packed_ip)&nbsp;-&gt;&nbsp;ip_address_string<br>
+&nbsp;<br>
+Convert&nbsp;an&nbsp;IP&nbsp;address&nbsp;from&nbsp;32-bit&nbsp;packed&nbsp;binary&nbsp;format&nbsp;to&nbsp;string&nbsp;format</tt></dd></dl>
+ <dl><dt><a name="-inet_ntop"><strong>inet_ntop</strong></a>(...)</dt><dd><tt><a href="#-inet_ntop">inet_ntop</a>(af,&nbsp;packed_ip)&nbsp;-&gt;&nbsp;string&nbsp;formatted&nbsp;IP&nbsp;address<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;packed&nbsp;IP&nbsp;address&nbsp;of&nbsp;the&nbsp;given&nbsp;family&nbsp;to&nbsp;string&nbsp;format.</tt></dd></dl>
+ <dl><dt><a name="-inet_pton"><strong>inet_pton</strong></a>(...)</dt><dd><tt><a href="#-inet_pton">inet_pton</a>(af,&nbsp;ip)&nbsp;-&gt;&nbsp;packed&nbsp;IP&nbsp;address&nbsp;string<br>
+&nbsp;<br>
+Convert&nbsp;an&nbsp;IP&nbsp;address&nbsp;from&nbsp;string&nbsp;format&nbsp;to&nbsp;a&nbsp;packed&nbsp;string&nbsp;suitable<br>
+for&nbsp;use&nbsp;with&nbsp;low-level&nbsp;network&nbsp;functions.</tt></dd></dl>
+ <dl><dt><a name="-initialaseUpdateDB"><strong>initialaseUpdateDB</strong></a>()</dt><dd><tt>If&nbsp;the&nbsp;Database&nbsp;is&nbsp;empty,this&nbsp;method&nbsp;fills&nbsp;it&nbsp;with&nbsp;Start&nbsp;Updates.<br>
+:return:&nbsp;nothings</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>Main&nbsp;Site&nbsp;of&nbsp;the&nbsp;FlaskApp&nbsp;shows&nbsp;all&nbsp;CLients&nbsp;with&nbsp;Information.<br>
+:return:&nbsp;Table&nbsp;of&nbsp;all&nbsp;Clients&nbsp;in&nbsp;HTML.</tt></dd></dl>
+ <dl><dt><a name="-newUpdate"><strong>newUpdate</strong></a>()</dt><dd><tt>This&nbsp;Method&nbsp;takes&nbsp;a&nbsp;Name&nbsp;and&nbsp;a&nbsp;Version&nbsp;from&nbsp;User&nbsp;Input&nbsp;to&nbsp;create&nbsp;a&nbsp;new&nbsp;Update.<br>
+:return:nothing</tt></dd></dl>
+ <dl><dt><a name="-ntohl"><strong>ntohl</strong></a>(...)</dt><dd><tt><a href="#-ntohl">ntohl</a>(integer)&nbsp;-&gt;&nbsp;integer<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;32-bit&nbsp;integer&nbsp;from&nbsp;network&nbsp;to&nbsp;host&nbsp;byte&nbsp;order.</tt></dd></dl>
+ <dl><dt><a name="-ntohs"><strong>ntohs</strong></a>(...)</dt><dd><tt><a href="#-ntohs">ntohs</a>(integer)&nbsp;-&gt;&nbsp;integer<br>
+&nbsp;<br>
+Convert&nbsp;a&nbsp;16-bit&nbsp;integer&nbsp;from&nbsp;network&nbsp;to&nbsp;host&nbsp;byte&nbsp;order.</tt></dd></dl>
+ <dl><dt><a name="-return_file"><strong>return_file</strong></a>(update)</dt><dd><tt>Download&nbsp;specific&nbsp;Update&nbsp;from&nbsp;link<br>
+:param&nbsp;update:&nbsp;The&nbsp;Update&nbsp;which&nbsp;can&nbsp;be&nbsp;downloaded<br>
+:return:&nbsp;HTML&nbsp;of&nbsp;the&nbsp;download&nbsp;Site</tt></dd></dl>
+ <dl><dt><a name="-runFlask"><strong>runFlask</strong></a>()</dt><dd><tt>Starts&nbsp;the&nbsp;flask&nbsp;App.<br>
+:return:&nbsp;nothing</tt></dd></dl>
+ <dl><dt><a name="-setdefaulttimeout"><strong>setdefaulttimeout</strong></a>(...)</dt><dd><tt><a href="#-setdefaulttimeout">setdefaulttimeout</a>(timeout)<br>
+&nbsp;<br>
+Set&nbsp;the&nbsp;default&nbsp;timeout&nbsp;in&nbsp;seconds&nbsp;(float)&nbsp;for&nbsp;new&nbsp;socket&nbsp;objects.<br>
+A&nbsp;value&nbsp;of&nbsp;None&nbsp;indicates&nbsp;that&nbsp;new&nbsp;socket&nbsp;objects&nbsp;have&nbsp;no&nbsp;timeout.<br>
+When&nbsp;the&nbsp;socket&nbsp;module&nbsp;is&nbsp;first&nbsp;imported,&nbsp;the&nbsp;default&nbsp;is&nbsp;None.</tt></dd></dl>
+ <dl><dt><a name="-settingMax"><strong>settingMax</strong></a>()</dt><dd><tt>This&nbsp;Method&nbsp;sets&nbsp;Max&nbsp;to&nbsp;to&nbsp;maximum&nbsp;Version&nbsp;of&nbsp;all&nbsp;Updates<br>
+:return:&nbsp;nothing</tt></dd></dl>
+ <dl><dt><a name="-socketpair"><strong>socketpair</strong></a>(...)</dt><dd><tt><a href="#-socketpair">socketpair</a>([family[,&nbsp;type[,&nbsp;proto]]])&nbsp;-&gt;&nbsp;(socket&nbsp;object,&nbsp;socket&nbsp;object)<br>
+&nbsp;<br>
+Create&nbsp;a&nbsp;pair&nbsp;of&nbsp;socket&nbsp;objects&nbsp;from&nbsp;the&nbsp;sockets&nbsp;returned&nbsp;by&nbsp;the&nbsp;platform<br>
+<a href="#-socketpair">socketpair</a>()&nbsp;function.<br>
+The&nbsp;arguments&nbsp;are&nbsp;the&nbsp;same&nbsp;as&nbsp;for&nbsp;socket()&nbsp;except&nbsp;the&nbsp;default&nbsp;family&nbsp;is<br>
+AF_UNIX&nbsp;if&nbsp;defined&nbsp;on&nbsp;the&nbsp;platform;&nbsp;otherwise,&nbsp;the&nbsp;default&nbsp;is&nbsp;AF_INET.</tt></dd></dl>
+ <dl><dt><a name="-updates"><strong>updates</strong></a>()</dt><dd><tt>Update&nbsp;Site&nbsp;show&nbsp;all&nbsp;avaiable&nbsp;Updates.<br>
+:return:&nbsp;Table&nbsp;of&nbsp;Updates&nbsp;in&nbsp;HTML</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>AF_APPLETALK</strong> = 5<br>
+<strong>AF_ASH</strong> = 18<br>
+<strong>AF_ATMPVC</strong> = 8<br>
+<strong>AF_ATMSVC</strong> = 20<br>
+<strong>AF_AX25</strong> = 3<br>
+<strong>AF_BLUETOOTH</strong> = 31<br>
+<strong>AF_BRIDGE</strong> = 7<br>
+<strong>AF_DECnet</strong> = 12<br>
+<strong>AF_ECONET</strong> = 19<br>
+<strong>AF_INET</strong> = 2<br>
+<strong>AF_INET6</strong> = 10<br>
+<strong>AF_IPX</strong> = 4<br>
+<strong>AF_IRDA</strong> = 23<br>
+<strong>AF_KEY</strong> = 15<br>
+<strong>AF_LLC</strong> = 26<br>
+<strong>AF_NETBEUI</strong> = 13<br>
+<strong>AF_NETLINK</strong> = 16<br>
+<strong>AF_NETROM</strong> = 6<br>
+<strong>AF_PACKET</strong> = 17<br>
+<strong>AF_PPPOX</strong> = 24<br>
+<strong>AF_ROSE</strong> = 11<br>
+<strong>AF_ROUTE</strong> = 16<br>
+<strong>AF_SECURITY</strong> = 14<br>
+<strong>AF_SNA</strong> = 22<br>
+<strong>AF_TIPC</strong> = 30<br>
+<strong>AF_UNIX</strong> = 1<br>
+<strong>AF_UNSPEC</strong> = 0<br>
+<strong>AF_WANPIPE</strong> = 25<br>
+<strong>AF_X25</strong> = 9<br>
+<strong>AI_ADDRCONFIG</strong> = 32<br>
+<strong>AI_ALL</strong> = 16<br>
+<strong>AI_CANONNAME</strong> = 2<br>
+<strong>AI_NUMERICHOST</strong> = 4<br>
+<strong>AI_NUMERICSERV</strong> = 1024<br>
+<strong>AI_PASSIVE</strong> = 1<br>
+<strong>AI_V4MAPPED</strong> = 8<br>
+<strong>BDADDR_ANY</strong> = '00:00:00:00:00:00'<br>
+<strong>BDADDR_LOCAL</strong> = '00:00:00:FF:FF:FF'<br>
+<strong>BTPROTO_HCI</strong> = 1<br>
+<strong>BTPROTO_L2CAP</strong> = 0<br>
+<strong>BTPROTO_RFCOMM</strong> = 3<br>
+<strong>BTPROTO_SCO</strong> = 2<br>
+<strong>CAPI</strong> = &lt;capsule object "_socket.CAPI"&gt;<br>
+<strong>CHECK_ALIVE</strong> = 1<br>
+<strong>CHECK_UPDATE</strong> = 3<br>
+<strong>EAI_ADDRFAMILY</strong> = -9<br>
+<strong>EAI_AGAIN</strong> = -3<br>
+<strong>EAI_BADFLAGS</strong> = -1<br>
+<strong>EAI_FAIL</strong> = -4<br>
+<strong>EAI_FAMILY</strong> = -6<br>
+<strong>EAI_MEMORY</strong> = -10<br>
+<strong>EAI_NODATA</strong> = -5<br>
+<strong>EAI_NONAME</strong> = -2<br>
+<strong>EAI_OVERFLOW</strong> = -12<br>
+<strong>EAI_SERVICE</strong> = -8<br>
+<strong>EAI_SOCKTYPE</strong> = -7<br>
+<strong>EAI_SYSTEM</strong> = -11<br>
+<strong>HCI_DATA_DIR</strong> = 1<br>
+<strong>HCI_FILTER</strong> = 2<br>
+<strong>HCI_TIME_STAMP</strong> = 3<br>
+<strong>INADDR_ALLHOSTS_GROUP</strong> = 3758096385<br>
+<strong>INADDR_ANY</strong> = 0<br>
+<strong>INADDR_BROADCAST</strong> = 4294967295<br>
+<strong>INADDR_LOOPBACK</strong> = 2130706433<br>
+<strong>INADDR_MAX_LOCAL_GROUP</strong> = 3758096639<br>
+<strong>INADDR_NONE</strong> = 4294967295<br>
+<strong>INADDR_UNSPEC_GROUP</strong> = 3758096384<br>
+<strong>IPPORT_RESERVED</strong> = 1024<br>
+<strong>IPPORT_USERRESERVED</strong> = 5000<br>
+<strong>IPPROTO_AH</strong> = 51<br>
+<strong>IPPROTO_DSTOPTS</strong> = 60<br>
+<strong>IPPROTO_EGP</strong> = 8<br>
+<strong>IPPROTO_ESP</strong> = 50<br>
+<strong>IPPROTO_FRAGMENT</strong> = 44<br>
+<strong>IPPROTO_GRE</strong> = 47<br>
+<strong>IPPROTO_HOPOPTS</strong> = 0<br>
+<strong>IPPROTO_ICMP</strong> = 1<br>
+<strong>IPPROTO_ICMPV6</strong> = 58<br>
+<strong>IPPROTO_IDP</strong> = 22<br>
+<strong>IPPROTO_IGMP</strong> = 2<br>
+<strong>IPPROTO_IP</strong> = 0<br>
+<strong>IPPROTO_IPIP</strong> = 4<br>
+<strong>IPPROTO_IPV6</strong> = 41<br>
+<strong>IPPROTO_NONE</strong> = 59<br>
+<strong>IPPROTO_PIM</strong> = 103<br>
+<strong>IPPROTO_PUP</strong> = 12<br>
+<strong>IPPROTO_RAW</strong> = 255<br>
+<strong>IPPROTO_ROUTING</strong> = 43<br>
+<strong>IPPROTO_RSVP</strong> = 46<br>
+<strong>IPPROTO_TCP</strong> = 6<br>
+<strong>IPPROTO_TP</strong> = 29<br>
+<strong>IPPROTO_UDP</strong> = 17<br>
+<strong>IPV6_CHECKSUM</strong> = 7<br>
+<strong>IPV6_DONTFRAG</strong> = 62<br>
+<strong>IPV6_DSTOPTS</strong> = 59<br>
+<strong>IPV6_HOPLIMIT</strong> = 52<br>
+<strong>IPV6_HOPOPTS</strong> = 54<br>
+<strong>IPV6_JOIN_GROUP</strong> = 20<br>
+<strong>IPV6_LEAVE_GROUP</strong> = 21<br>
+<strong>IPV6_MULTICAST_HOPS</strong> = 18<br>
+<strong>IPV6_MULTICAST_IF</strong> = 17<br>
+<strong>IPV6_MULTICAST_LOOP</strong> = 19<br>
+<strong>IPV6_NEXTHOP</strong> = 9<br>
+<strong>IPV6_PATHMTU</strong> = 61<br>
+<strong>IPV6_PKTINFO</strong> = 50<br>
+<strong>IPV6_RECVDSTOPTS</strong> = 58<br>
+<strong>IPV6_RECVHOPLIMIT</strong> = 51<br>
+<strong>IPV6_RECVHOPOPTS</strong> = 53<br>
+<strong>IPV6_RECVPATHMTU</strong> = 60<br>
+<strong>IPV6_RECVPKTINFO</strong> = 49<br>
+<strong>IPV6_RECVRTHDR</strong> = 56<br>
+<strong>IPV6_RECVTCLASS</strong> = 66<br>
+<strong>IPV6_RTHDR</strong> = 57<br>
+<strong>IPV6_RTHDRDSTOPTS</strong> = 55<br>
+<strong>IPV6_RTHDR_TYPE_0</strong> = 0<br>
+<strong>IPV6_TCLASS</strong> = 67<br>
+<strong>IPV6_UNICAST_HOPS</strong> = 16<br>
+<strong>IPV6_V6ONLY</strong> = 26<br>
+<strong>IP_ADD_MEMBERSHIP</strong> = 35<br>
+<strong>IP_DEFAULT_MULTICAST_LOOP</strong> = 1<br>
+<strong>IP_DEFAULT_MULTICAST_TTL</strong> = 1<br>
+<strong>IP_DROP_MEMBERSHIP</strong> = 36<br>
+<strong>IP_HDRINCL</strong> = 3<br>
+<strong>IP_MAX_MEMBERSHIPS</strong> = 20<br>
+<strong>IP_MULTICAST_IF</strong> = 32<br>
+<strong>IP_MULTICAST_LOOP</strong> = 34<br>
+<strong>IP_MULTICAST_TTL</strong> = 33<br>
+<strong>IP_OPTIONS</strong> = 4<br>
+<strong>IP_RECVOPTS</strong> = 6<br>
+<strong>IP_RECVRETOPTS</strong> = 7<br>
+<strong>IP_RETOPTS</strong> = 7<br>
+<strong>IP_TOS</strong> = 1<br>
+<strong>IP_TTL</strong> = 2<br>
+<strong>LocalUrl</strong> = 'http://192.168.0.38:5000/updates/downloads/'<br>
+<strong>MSG_CTRUNC</strong> = 8<br>
+<strong>MSG_DONTROUTE</strong> = 4<br>
+<strong>MSG_DONTWAIT</strong> = 64<br>
+<strong>MSG_EOR</strong> = 128<br>
+<strong>MSG_OOB</strong> = 1<br>
+<strong>MSG_PEEK</strong> = 2<br>
+<strong>MSG_TRUNC</strong> = 32<br>
+<strong>MSG_WAITALL</strong> = 256<br>
+<strong>NETLINK_DNRTMSG</strong> = 14<br>
+<strong>NETLINK_FIREWALL</strong> = 3<br>
+<strong>NETLINK_IP6_FW</strong> = 13<br>
+<strong>NETLINK_NFLOG</strong> = 5<br>
+<strong>NETLINK_ROUTE</strong> = 0<br>
+<strong>NETLINK_USERSOCK</strong> = 2<br>
+<strong>NETLINK_XFRM</strong> = 6<br>
+<strong>NI_DGRAM</strong> = 16<br>
+<strong>NI_MAXHOST</strong> = 1025<br>
+<strong>NI_MAXSERV</strong> = 32<br>
+<strong>NI_NAMEREQD</strong> = 8<br>
+<strong>NI_NOFQDN</strong> = 4<br>
+<strong>NI_NUMERICHOST</strong> = 1<br>
+<strong>NI_NUMERICSERV</strong> = 2<br>
+<strong>PACKET_BROADCAST</strong> = 1<br>
+<strong>PACKET_FASTROUTE</strong> = 6<br>
+<strong>PACKET_HOST</strong> = 0<br>
+<strong>PACKET_LOOPBACK</strong> = 5<br>
+<strong>PACKET_MULTICAST</strong> = 2<br>
+<strong>PACKET_OTHERHOST</strong> = 3<br>
+<strong>PACKET_OUTGOING</strong> = 4<br>
+<strong>PF_PACKET</strong> = 17<br>
+<strong>SHUT_RD</strong> = 0<br>
+<strong>SHUT_RDWR</strong> = 2<br>
+<strong>SHUT_WR</strong> = 1<br>
+<strong>SOCK_DGRAM</strong> = 2<br>
+<strong>SOCK_RAW</strong> = 3<br>
+<strong>SOCK_RDM</strong> = 4<br>
+<strong>SOCK_SEQPACKET</strong> = 5<br>
+<strong>SOCK_STREAM</strong> = 1<br>
+<strong>SOL_HCI</strong> = 0<br>
+<strong>SOL_IP</strong> = 0<br>
+<strong>SOL_SOCKET</strong> = 1<br>
+<strong>SOL_TCP</strong> = 6<br>
+<strong>SOL_TIPC</strong> = 271<br>
+<strong>SOL_UDP</strong> = 17<br>
+<strong>SOMAXCONN</strong> = 128<br>
+<strong>SO_ACCEPTCONN</strong> = 30<br>
+<strong>SO_BROADCAST</strong> = 6<br>
+<strong>SO_DEBUG</strong> = 1<br>
+<strong>SO_DONTROUTE</strong> = 5<br>
+<strong>SO_ERROR</strong> = 4<br>
+<strong>SO_KEEPALIVE</strong> = 9<br>
+<strong>SO_LINGER</strong> = 13<br>
+<strong>SO_OOBINLINE</strong> = 10<br>
+<strong>SO_RCVBUF</strong> = 8<br>
+<strong>SO_RCVLOWAT</strong> = 18<br>
+<strong>SO_RCVTIMEO</strong> = 20<br>
+<strong>SO_REUSEADDR</strong> = 2<br>
+<strong>SO_REUSEPORT</strong> = 15<br>
+<strong>SO_SNDBUF</strong> = 7<br>
+<strong>SO_SNDLOWAT</strong> = 19<br>
+<strong>SO_SNDTIMEO</strong> = 21<br>
+<strong>SO_TYPE</strong> = 3<br>
+<strong>TCP_CORK</strong> = 3<br>
+<strong>TCP_DEFER_ACCEPT</strong> = 9<br>
+<strong>TCP_INFO</strong> = 11<br>
+<strong>TCP_KEEPCNT</strong> = 6<br>
+<strong>TCP_KEEPIDLE</strong> = 4<br>
+<strong>TCP_KEEPINTVL</strong> = 5<br>
+<strong>TCP_LINGER2</strong> = 8<br>
+<strong>TCP_MAXSEG</strong> = 2<br>
+<strong>TCP_NODELAY</strong> = 1<br>
+<strong>TCP_QUICKACK</strong> = 12<br>
+<strong>TCP_SYNCNT</strong> = 7<br>
+<strong>TCP_WINDOW_CLAMP</strong> = 10<br>
+<strong>TIPC_ADDR_ID</strong> = 3<br>
+<strong>TIPC_ADDR_NAME</strong> = 2<br>
+<strong>TIPC_ADDR_NAMESEQ</strong> = 1<br>
+<strong>TIPC_CFG_SRV</strong> = 0<br>
+<strong>TIPC_CLUSTER_SCOPE</strong> = 2<br>
+<strong>TIPC_CONN_TIMEOUT</strong> = 130<br>
+<strong>TIPC_CRITICAL_IMPORTANCE</strong> = 3<br>
+<strong>TIPC_DEST_DROPPABLE</strong> = 129<br>
+<strong>TIPC_HIGH_IMPORTANCE</strong> = 2<br>
+<strong>TIPC_IMPORTANCE</strong> = 127<br>
+<strong>TIPC_LOW_IMPORTANCE</strong> = 0<br>
+<strong>TIPC_MEDIUM_IMPORTANCE</strong> = 1<br>
+<strong>TIPC_NODE_SCOPE</strong> = 3<br>
+<strong>TIPC_PUBLISHED</strong> = 1<br>
+<strong>TIPC_SRC_DROPPABLE</strong> = 128<br>
+<strong>TIPC_SUBSCR_TIMEOUT</strong> = 3<br>
+<strong>TIPC_SUB_CANCEL</strong> = 4<br>
+<strong>TIPC_SUB_PORTS</strong> = 1<br>
+<strong>TIPC_SUB_SERVICE</strong> = 2<br>
+<strong>TIPC_TOP_SRV</strong> = 1<br>
+<strong>TIPC_WAIT_FOREVER</strong> = -1<br>
+<strong>TIPC_WITHDRAWN</strong> = 2<br>
+<strong>TIPC_ZONE_SCOPE</strong> = 1<br>
+<strong>URL</strong> = 'http://192.168.0.38:5000'<br>
+<strong>abort</strong> = &lt;werkzeug.exceptions.Aborter object&gt;<br>
+<strong>app</strong> = &lt;Flask 'main'&gt;<br>
+<strong>appcontext_popped</strong> = &lt;blinker.base.NamedSignal object at 0x7f7374159510; 'appcontext-popped'&gt;<br>
+<strong>appcontext_pushed</strong> = &lt;blinker.base.NamedSignal object at 0x7f73741594d0; 'appcontext-pushed'&gt;<br>
+<strong>appcontext_tearing_down</strong> = &lt;blinker.base.NamedSignal object at 0x7f7374159490; 'appcontext-tearing-down'&gt;<br>
+<strong>current_app</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>db</strong> = &lt;SQLAlchemy engine='sqlite:///students.sqlite3'&gt;<br>
+<strong>g</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>got_request_exception</strong> = &lt;blinker.base.NamedSignal object at 0x7f7374159450; 'got-request-exception'&gt;<br>
+<strong>has_ipv6</strong> = True<br>
+<strong>json_available</strong> = True<br>
+<strong>maxV</strong> = 0<br>
+<strong>message_flashed</strong> = &lt;blinker.base.NamedSignal object at 0x7f7374159550; 'message-flashed'&gt;<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>request_finished</strong> = &lt;blinker.base.NamedSignal object at 0x7f73741593d0; 'request-finished'&gt;<br>
+<strong>request_started</strong> = &lt;blinker.base.NamedSignal object at 0x7f737414e610; 'request-started'&gt;<br>
+<strong>request_tearing_down</strong> = &lt;blinker.base.NamedSignal object at 0x7f7374159410; 'request-tearing-down'&gt;<br>
+<strong>serversocket</strong> = &lt;socket._socketobject object&gt;<br>
+<strong>session</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>signals_available</strong> = True<br>
+<strong>template_rendered</strong> = &lt;blinker.base.NamedSignal object at 0x7f737414e5d0; 'template-rendered'&gt;</td></tr></table>
+</body></html>

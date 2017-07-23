@@ -22,7 +22,7 @@ CHECK_UPDATE=3
 maxV=0
 
 class Client(db.Model):
-    """Clienten Klasse"""
+    """Clienten Class"""
     id = db.Column('client_id', db.Integer, primary_key=True)
     hostname = db.Column(db.String(100))
     datum = db.Column(db.String(100))
@@ -33,6 +33,17 @@ class Client(db.Model):
     gpu = db.Column(db.String(40))
 
     def __init__(self,hostname,ip,cpu,ram,gpu,date):
+        """
+        Constructs a new Client object.
+        :param hostname: Hostname of the Client
+        :param ip: IP-Address of the Client
+        :param cpu: CPU of the Client
+        :param ram: RAM of the Client
+        :param gpu: GPU of the Client
+        :param date: Date of the last Connection of the Client
+        :param alive: If Client is still connected with the Server
+        :return: returns nothing
+        """
         self.hostname=hostname
         self.ram=ram
         self.cpu=cpu
@@ -42,7 +53,9 @@ class Client(db.Model):
         self.alive=str(True)
 
 class UpdatePackage(db.Model):
-    """Update Klasse"""
+    """
+    Update Class
+    """
     id = db.Column('client_id', db.Integer, primary_key=True)
     packageName=db.Column(db.String(100))
     version=db.Column(db.Float)
@@ -50,6 +63,14 @@ class UpdatePackage(db.Model):
     script=db.Column(db.String(100))
     checksum=db.Column(db.String(100))
     def __init__(self,packageName,version,url,script):
+        """
+        Constructs a new Update object.
+        :param packageName:  Name of the Update
+        :param version: Version of the Update
+        :param url: Url of the Update
+        :param script: Script to install the Update
+        :return:  returns nothing
+        """
         self.packageName=packageName
         self.version=version
         self.url=url
@@ -58,7 +79,10 @@ class UpdatePackage(db.Model):
 
 db.create_all()
 def newUpdate():
-    """Diese Methode erstellt ein neues Update"""
+    """
+    This Method takes a Name and a Version from User Input to create a new Update.
+    :return:nothing
+    """
     time.sleep(2)
     while(True):
         inpu=input('For Entering new Update write New:')
@@ -89,7 +113,12 @@ def newUpdate():
 
         time.sleep(2)
 def createUpdatePackage(name,version):
-    """Diese Methode fuegt ein neues Update in die Datenbank ein"""
+    """
+    This Method creates a new Update and saves it in the Database.
+    :param name: Name of the Update
+    :param version: Version of the Update
+    :return: nothing
+    """
     upList=UpdatePackage.query.all()
     for u in upList:
         if u.packageName == (name + '.zip') :
@@ -116,7 +145,10 @@ def createUpdatePackage(name,version):
     settingMax()
     print('Added new Update: ' + name +' \n' )
 def initialaseUpdateDB():
-    """Diese Methode initialisert,falls noch nicht vorhanden,die Datenbank mit Werten"""
+    """
+    If the Database is empty,this method fills it with Start Updates.
+    :return: nothings
+    """
     if(len(list(UpdatePackage.query.all())) == 0):
         createUpdatePackage('UpdateA',1.0)
         createUpdatePackage('UpdateAb', 1.5)
@@ -127,7 +159,10 @@ def initialaseUpdateDB():
 
 
 def createServer():
-    """Diese Methode startet den Server und nimmt Verbindungen zu Clienten entgegen"""
+    """
+    This Method connects to the Clients and starts Worker Threads for them.
+    :return: nothing
+    """
     global serversocket
     skip=False
     print('Waiting for Connections\n')
@@ -192,7 +227,12 @@ def createServer():
         serversocket.close()
 
 def checkAliveSocket(s,cID):
-    """Diese Methode checkt ob der angegebene Socket noch aktiv ist"""
+    """
+    This Method checks if the Client is still connected.
+    :param s: Socket which connects to Client
+    :param cID: ID of the Client in the Database
+    :return: nothing
+    """
     open=True
     client=Client.query.filter(Client.id == cID).first()
     hostname=client.hostname
@@ -220,7 +260,10 @@ def checkAliveSocket(s,cID):
 
 
 def settingMax():
-    """Diese Methode sucht die maximale Version der Updates"""
+    """
+    This Method sets Max to to maximum Version of all Updates
+    :return: nothing
+    """
     global maxV
     global maxUp
     for upd in UpdatePackage.query.all():
@@ -231,7 +274,11 @@ def settingMax():
     print('Max Version: ' +str(maxV))
 
 def checkUpdateRequest(s):
-    """Diese Methode beantwortet Update Nachfragen der Clienten"""
+    """
+    This Method checks for UpdateRequests of the Client
+    :param s: Socket which connects to the CLient
+    :return: nothing
+    """
     global maxV
     global maxUp
     while True:
@@ -254,18 +301,36 @@ def checkUpdateRequest(s):
 
 
 @app.route('/')
+
 def main():
+     """
+     Main Site of the FlaskApp shows all CLients with Information.
+     :return: Table of all Clients in HTML.
+     """
      return render_template('clients.html', clients=Client.query.all(),updateslink=URL+"/updates")
 
 @app.route('/updates')
 def updates():
+     """
+     Update Site show all avaiable Updates.
+     :return: Table of Updates in HTML
+     """
      return render_template('updates.html', updates=UpdatePackage.query.all(),home=URL)
 
 @app.route('/updates/downloads/<update>')
 def return_file(update):
+    """
+    Download specific Update from link
+    :param update: The Update which can be downloaded
+    :return: HTML of the download Site
+    """
     updatefile=update + ".zip"
     return send_from_directory(directory='downloads', filename=updatefile, as_attachment=True)
 def runFlask():
+    """
+    Starts the flask App.
+    :return: nothing
+    """
     app.run(host='0.0.0.0', port=5000, threaded=True)
 
 
