@@ -11,6 +11,10 @@ s=None
 SERVERIP='192.168.0.38'
 SERVERPORT=5001
 def connect():
+    """
+    This Method connects the Client with the Server.
+    :return: nothing
+    """
     global connection
     global s
     global version
@@ -40,22 +44,25 @@ def connect():
                 except json.decoder.JSONDecodeError:
                     continue
             time.sleep(1)
-    except (ConnectionResetError, ConnectionRefusedError):
+    except (ConnectionResetError, ConnectionRefusedError,json.decoder.JSONDecodeError):
         print("No Connection,Server dead or CLient already connected")
         s.close()
         connection = False
 
 def get_processor_name():
-    """Returns the Name of the Processor of the Computer using the Script"""
+    """
+    Returns the Name of the Processor of the Computer using the Script
+    :return: The name of the Processofr from the Computer usng the Script
+    """
     return cpuinfo.get_cpu_info().get('brand')
 def get_hostname():
-    """Returns the Hostname of the Computer using the Script"""
+    """Returns the Hostname of the Computer using the Script
+    :return: Hostname of the Computer"""
     return str(platform.node())
 def get_ram():
-    """Returns the RAM of the Computer using the Script"""
-    return str(math.ceil(psutil.virtual_memory()[0]/2.**30))
-def get_gpu():
-    """Returns the GPU of the Computer using the Script"""
+    """Returns the RAM of the Computer using the Script
+    :return:GPU of the Computer
+    """
     if platform.system() == 'Linux':
         d = Popen(["lshw", "-c", "display"], stdout=PIPE).stdout.read()
         d = (str(d).split("\\n"))
@@ -71,13 +78,15 @@ def get_gpu():
         return format(gpu_info.Name)
     return 'System not Linux or Windows'
 def jsonHardwareInformation():
-        """Returns a JSON-String of the Hardwareinformation in bytes"""
+        """Returns a JSON-String of the Hardwareinformation in bytes
+        :return:JSON-STRING of the Hardware Information"""
         m = '{"hostname": "' + get_hostname() + '","cpu":"' + get_processor_name() + '","ram":"' + get_ram() + '","gpu":"' + get_gpu() + '"}'
         mbytes=str.encode(m)
         return mbytes
 
 def updateRequest():
-    """While  the Client is connected to the Server,it sends JSON-Strings with the actual version of the Client"""
+    """While  the Client is connected to the Server,it sends JSON-Strings with the actual version of the Client
+    :return:nothing"""
     global connection
     try:
         while connection:
@@ -88,7 +97,8 @@ def updateRequest():
     except ConnectionResetError:
         connection=False
 def checkUpdate():
-    """Read the actual version of the Client out of the updateinfo.txt and saves it in the version variable"""
+    """Read the actual version of the Client out of the updateinfo.txt and saves it in the version variable
+    :return:nothing"""
     global version
     global  checksum
     try:
@@ -103,7 +113,8 @@ def checkUpdate():
         checksum='0'
 def updateClientInfo(jsono):
 
-    """Updates the updateinfo.txt with new  Information out of a JSON-String"""
+    """Updates the updateinfo.txt with new  Information out of a JSON-String
+    :return:nothing"""
     print (jsono['name'])
     try:
         os.remove('./'+jsono['name'])
