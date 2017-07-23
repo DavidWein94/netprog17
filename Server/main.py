@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.sqlite3'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 db=SQLAlchemy(app)
-lockDB=threading.Lock()
+
 session=db.session()
 serversocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)
 serversocket.bind(('0.0.0.0', 5001))
@@ -106,9 +106,9 @@ def createUpdatePackage(name,version):
     update.checksum=hashlib.md5(open('./downloads/' + update.packageName, 'rb').read()).hexdigest()
     os.remove('./downloads/' + update.packageName[:-4] + '.txt')
     db.session.add(update)
-    lockDB.acquire()
+
     db.session.commit()
-    lockDB.release()
+
     settingMax()
     print('Added new Update: ' + name +' \n' )
 def initialaseUpdateDB():
@@ -139,7 +139,9 @@ def createServer():
             jsonobject=json.loads(rec)
             #print(jsonobject['hostname'])
             #print(jsonobject['cpu'])
+
             db.session.commit()
+
            # if(len(Client.query.filter(Client.hostname==jsonobject['hostname']) != 0 and Client.query.filter(Client.ip==address[0] )) == True):
             clienten =Client.query.filter(Client.hostname == jsonobject['hostname']).all()
 
@@ -158,7 +160,9 @@ def createServer():
                         print('Existing:Not Connected\n')
                         clientb.datum = str(datetime.datetime.now())[:16]
                         #clientb.alive=str(True)
+
                         db.session.commit()
+
 
 
                         cID = Client.query.filter(Client.hostname == jsonobject['hostname']).first().id
@@ -170,9 +174,9 @@ def createServer():
             if skip==False:
                 c=Client(jsonobject['hostname'],address[0],jsonobject['cpu'],jsonobject['ram'],jsonobject['gpu'],str(datetime.datetime.now())[:16])
                 db.session.add(c)
-                lockDB.acquire()
+
                 db.session.commit()
-                lockDB.release()
+
                 cID =Client.query.filter(Client.hostname == jsonobject['hostname']).first().id
                 a = Thread(target=checkAliveSocket, args=(clientsocket, cID, ))
                 a.start()
@@ -195,16 +199,16 @@ def checkAliveSocket(s,cID):
                 client.datum = str(datetime.datetime.now())[:16]
                 e = db.session.query(Client).all()
                 k = Client.query.all()
-                lockDB.acquire()
+
                 #db.session.remove(client)
                 db.session.commit()
-                lockDB.release()
+
 
             except (ConnectionAbortedError, ConnectionResetError, BrokenPipeError,OSError):
                 client.alive = str(False)
-                lockDB.acquire()
+
                 db.session.commit()
-                lockDB.release()
+
                 #s.close()
                 open=False
                 print('Client with hostname=[' + str(hostname) + '] lost connection.')
